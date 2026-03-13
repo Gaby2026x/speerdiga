@@ -225,7 +225,7 @@ var _builtinFootprints = [
     { name: "Pharmacist", value: "site:linkedin.com/in/ Pharmacist" },
     { name: "Healthcare Administrator", value: "site:linkedin.com/in/ \"Healthcare Administrator\"" },
     { name: "Clinical Research Manager", value: "site:linkedin.com/in/ \"Clinical Research Manager\"" },
-    { name: "Biotech / Pharmaceutical Researcher", value: "site:linkedin.com/in/ \"Biotech\" OR \"Pharmaceutical\" researcher" },
+    { name: "Biotech / Pharmaceutical Researcher", value: "site:linkedin.com/in/ \"Biotech\" OR \"Pharmaceutical\" \"Researcher\"" },
     { name: "Health Information Manager", value: "site:linkedin.com/in/ \"Health Information Manager\"" },
     { name: "Dentist", value: "site:linkedin.com/in/ Dentist" },
     { name: "Therapist / Counselor", value: "site:linkedin.com/in/ Therapist OR Counselor" },
