@@ -68,17 +68,33 @@
                         <label for="pattern-input">@ Patterns</label>
                         <select class="form-control" id="email-type-select" style="margin-bottom: 5px;">
                             <option value="custom">Custom</option>
-                            <option value="isp-all">All ISP / Webmail</option>
-                            <option value="isp-gmail">Gmail</option>
-                            <option value="isp-yahoo">Yahoo</option>
-                            <option value="isp-outlook">Outlook</option>
-                            <option value="isp-hotmail">Hotmail</option>
-                            <option value="isp-aol">AOL</option>
-                            <option value="isp-icloud">iCloud</option>
-                            <option value="isp-protonmail">ProtonMail</option>
-                            <option value="biz-all">Business (exclude ISP)</option>
-                            <option value="biz-edu">Education (.edu)</option>
-                            <option value="biz-gov">Government (.gov)</option>
+                            <optgroup label="── ISP / Webmail ──">
+                                <option value="isp-all">All ISP / Webmail</option>
+                                <option value="isp-gmail">Gmail</option>
+                                <option value="isp-yahoo">Yahoo</option>
+                                <option value="isp-outlook">Outlook</option>
+                                <option value="isp-hotmail">Hotmail</option>
+                                <option value="isp-aol">AOL</option>
+                                <option value="isp-icloud">iCloud</option>
+                                <option value="isp-protonmail">ProtonMail</option>
+                            </optgroup>
+                            <optgroup label="── US ISP ──">
+                                <option value="isp-comcast">Comcast / Xfinity</option>
+                                <option value="isp-bellsouth">BellSouth</option>
+                                <option value="isp-att">AT&amp;T</option>
+                                <option value="isp-verizon">Verizon</option>
+                                <option value="isp-cox">Cox</option>
+                                <option value="isp-spectrum">Charter / Spectrum</option>
+                                <option value="isp-centurylink">CenturyLink</option>
+                                <option value="isp-frontier">Frontier</option>
+                                <option value="isp-earthlink">EarthLink</option>
+                                <option value="isp-windstream">Windstream</option>
+                            </optgroup>
+                            <optgroup label="── Business Emails ──">
+                                <option value="biz-all">Business (exclude ISP)</option>
+                                <option value="biz-edu">Education (.edu)</option>
+                                <option value="biz-gov">Government (.gov)</option>
+                            </optgroup>
                         </select>
                         <textarea style="resize: none;" class="form-control" rows="3" id="pattern-input"></textarea>
                     </div>

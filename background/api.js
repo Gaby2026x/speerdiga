@@ -636,18 +636,32 @@ var _builtinFootprints = [
     { name: "ISP: Mail.com contacts", value: "\"@mail.com\"" },
     { name: "ISP: GMX contacts", value: "\"@gmx.com\" OR \"@gmx.net\"" },
     { name: "ISP: Yandex contacts", value: "\"@yandex.com\" OR \"@yandex.ru\"" },
-    { name: "ISP: Comcast contacts", value: "\"@comcast.net\"" },
+    { name: "ISP: Comcast / Xfinity contacts", value: "\"@comcast.net\" OR \"@xfinity.com\"" },
+    { name: "ISP: BellSouth contacts", value: "\"@bellsouth.net\"" },
     { name: "ISP: AT&T contacts", value: "\"@att.net\" OR \"@sbcglobal.net\"" },
     { name: "ISP: Verizon contacts", value: "\"@verizon.net\"" },
     { name: "ISP: Cox contacts", value: "\"@cox.net\"" },
     { name: "ISP: Charter/Spectrum contacts", value: "\"@charter.net\" OR \"@spectrum.net\"" },
+    { name: "ISP: CenturyLink / Lumen contacts", value: "\"@centurylink.net\" OR \"@embarqmail.com\"" },
+    { name: "ISP: Frontier contacts", value: "\"@frontier.com\" OR \"@frontiernet.net\"" },
+    { name: "ISP: Windstream contacts", value: "\"@windstream.net\"" },
+    { name: "ISP: EarthLink contacts", value: "\"@earthlink.net\"" },
+    { name: "ISP: Optimum / Cablevision contacts", value: "\"@optonline.net\"" },
+    { name: "ISP: RCN contacts", value: "\"@rcn.com\"" },
+    { name: "ISP: Suddenlink contacts", value: "\"@suddenlink.net\"" },
+    { name: "ISP: WOW contacts", value: "\"@wowway.com\"" },
+    { name: "ISP: Mediacom contacts", value: "\"@mediacombb.net\"" },
     { name: "ISP: BT contacts (UK)", value: "\"@btinternet.com\"" },
     { name: "ISP: Virgin Media (UK)", value: "\"@virginmedia.com\"" },
     { name: "ISP: Sky contacts (UK)", value: "\"@sky.com\"" },
+    { name: "ISP: TalkTalk (UK)", value: "\"@talktalk.net\"" },
     { name: "ISP: Telstra contacts (AU)", value: "\"@bigpond.com\"" },
+    { name: "ISP: Optus contacts (AU)", value: "\"@optusnet.com.au\"" },
     { name: "ISP: Rogers contacts (CA)", value: "\"@rogers.com\"" },
     { name: "ISP: Shaw contacts (CA)", value: "\"@shaw.ca\"" },
-    { name: "ISP: All major ISP emails", value: "\"@gmail.com\" OR \"@yahoo.com\" OR \"@outlook.com\" OR \"@hotmail.com\" OR \"@aol.com\"" },
+    { name: "ISP: Bell Canada contacts", value: "\"@bell.net\" OR \"@sympatico.ca\"" },
+    { name: "ISP: Telus contacts (CA)", value: "\"@telus.net\"" },
+    { name: "ISP: All major ISP emails", value: "\"@gmail.com\" OR \"@yahoo.com\" OR \"@outlook.com\" OR \"@hotmail.com\" OR \"@aol.com\" OR \"@comcast.net\" OR \"@bellsouth.net\" OR \"@att.net\" OR \"@verizon.net\"" },
 
     // ══════════════════════════════════════════════
     // Business / Company Email Footprints
@@ -699,9 +713,14 @@ serpdigger.api.footprints.get = function (callback) {
         method: serpdigger.config.api.footprints.method,
         cache: 'no-cache'
     })
-    .then(function(response) { return response.text(); })
+    .then(function(response) {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.text();
+    })
     .then(function(data) {
-        var parsed = _parseFootprints(data);
+        var parsed = _parseFootprints(data).filter(function (f) {
+            return f.name && f.value;
+        });
         callback(parsed.length > 0 ? parsed : _builtinFootprints);
     })
     .catch(function() {
