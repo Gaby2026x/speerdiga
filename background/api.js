@@ -715,9 +715,15 @@ serpdigger.api.footprints.get = function (callback) {
     })
     .then(function(response) {
         if (!response.ok) throw new Error('HTTP ' + response.status);
+        var ct = (response.headers.get('content-type') || '').toLowerCase();
+        if (ct.indexOf('text/html') !== -1) throw new Error('Expected text/plain footprints but received text/html');
         return response.text();
     })
     .then(function(data) {
+        var trimmed = data.trimStart();
+        if (trimmed.charAt(0) === '<' || trimmed.indexOf('<!DOCTYPE') !== -1) {
+            throw new Error('Response body contains HTML markup instead of footprints data');
+        }
         var parsed = _parseFootprints(data).filter(function (f) {
             return f.name && f.value;
         });
