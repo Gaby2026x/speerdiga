@@ -34,6 +34,11 @@
                     <span class="text-info">By: </span>
                     <a href="http://www.serpdigger.com/yossi" target="_blank">Yossi Bezalel</a>
                 </div>
+                <div class="col-sm-3 text-center" style="padding: 10px 0;">
+                    <span id="checking-account" style="display: none;" class="text-warning">Checking account...</span>
+                    <span class="activated" style="display: none; color: green;">&#10003; Activated</span>
+                    <span class="trial" style="display: none; color: orange;">Trial Account</span>
+                </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
@@ -51,6 +56,9 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="footprints-input">Site footprint</label>
+                        <select class="form-control" id="footprint-select" style="margin-bottom: 5px;">
+                            <option value="custom">Custom</option>
+                        </select>
                         <textarea style="resize: none;" rows="3" class="form-control" id="footprint-input"></textarea>
                     </div>
                 </div>

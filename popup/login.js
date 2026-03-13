@@ -1,7 +1,7 @@
-var PAID = true;
+var PAID = false;
 
 function updatePaidStatus(paid) {
-    PAID = true;
+    PAID = paid;
     chrome.extension.getBackgroundPage().serpdigger.paid = paid;
 }
 
@@ -14,21 +14,34 @@ function updateAccountStatus(username, password, callback) {
             password: password
         }, function (data) {
            
-                updatePaidStatus(true);
+                updatePaidStatus(data.paid);
                 $('.trial, #checking-account').hide();
-                $('.activated').show();
+                if (data.paid) {
+                    $('.activated').show();
+                } else {
+                    $('.trial').show();
+                }
              
             callback();
         });
     } else {
         _sendEvent('account:saved', {}, function (account) {
+            if (!account) {
+                $('#checking-account').hide();
+                callback();
+                return;
+            }
                    _sendEvent("account:check", {
                     username: account.username,
                     password: account.password
                 }, function (data) {
-                         updatePaidStatus(true);
+                         updatePaidStatus(data.paid);
                         $('.trial, #checking-account').hide();
-                        $('.activated').show();
+                        if (data.paid) {
+                            $('.activated').show();
+                        } else {
+                            $('.trial').show();
+                        }
                    
                     callback();
                 });

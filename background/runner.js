@@ -156,9 +156,9 @@ serpdigger.run = function (queries) {
 
     if(popup) {
         popup.updateNumberOfEmailsFound(0);
-        popup.updateTotalNumberOfQueries(queries.length);
+        popup.updateTotalNumberOfQueries(queries.str.length);
         popup.updateCurrentQueryNumber(1);
-        popup.updateCurrentQueryString(queries[0]);
+        popup.updateCurrentQueryString(queries.str[0]);
         popup.showCurrentQueryString();
         popup.hideCompleteStatus();
         popup.updateButtons();
@@ -179,7 +179,7 @@ serpdigger.download = function () {
     var dateString = (date.getDate()) + '-' + (date.getMonth()+1) + '-' + (date.getFullYear());
     var timeString = date.getHours() + '-' + date.getMinutes();
     var emails = serpdigger.runner.current.emailsFound
-    emails = serpdigger.paid ? emails : emails
+    emails = serpdigger.paid ? emails : emails.slice(0, 100)
     chrome.downloads.download({
         url: 'data:text/plain;base64,' + btoa(emails.join("\r\n")),
         filename: 'serpdigger_'+dateString+'_'+timeString+'.txt',

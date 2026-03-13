@@ -151,6 +151,7 @@ Runner.prototype.extract = function () {
         var $this = $(this);
         var emails = ($this.find('.gs-snippet').text().match(EMAIL_REGEXP) || []);
         emails.forEach(function (email) {
+            if (!runner.options.queryObject || !runner.options.queryObject[1]) { return }
             var emailObject = runner.options.queryObject[1].replace(/"/g, '');
             var emailParsed = email.toLowerCase().replace(/\s{1,}/gi, '');
             var emailResult = emailParsed.split(emailObject);
@@ -159,7 +160,7 @@ Runner.prototype.extract = function () {
             
             emailResult = emailResult[0] + emailObject;
 
-            if(!runner.options.removeDuplicates || (runner.emails.indexOf(email) === -1)) {
+            if(!runner.options.removeDuplicates || (runner.emails.indexOf(emailResult) === -1)) {
                 runner.emails.push(emailResult);
             }
         });
