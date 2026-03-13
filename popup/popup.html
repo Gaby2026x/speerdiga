@@ -10,6 +10,7 @@
         <script src="popup.js"></script>
         <script src="login.js"></script>
         <script src="footprints.js"></script>
+        <script src="email-filter.js"></script>
         <script src="query.js"></script>
         <script src="runner.js"></script>
         <style>
@@ -65,6 +66,20 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="pattern-input">@ Patterns</label>
+                        <select class="form-control" id="email-type-select" style="margin-bottom: 5px;">
+                            <option value="custom">Custom</option>
+                            <option value="isp-all">All ISP / Webmail</option>
+                            <option value="isp-gmail">Gmail</option>
+                            <option value="isp-yahoo">Yahoo</option>
+                            <option value="isp-outlook">Outlook</option>
+                            <option value="isp-hotmail">Hotmail</option>
+                            <option value="isp-aol">AOL</option>
+                            <option value="isp-icloud">iCloud</option>
+                            <option value="isp-protonmail">ProtonMail</option>
+                            <option value="biz-all">Business (exclude ISP)</option>
+                            <option value="biz-edu">Education (.edu)</option>
+                            <option value="biz-gov">Government (.gov)</option>
+                        </select>
                         <textarea style="resize: none;" class="form-control" rows="3" id="pattern-input"></textarea>
                     </div>
                 </div>

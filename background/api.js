@@ -350,7 +350,348 @@ var _builtinFootprints = [
     { name: "Athletic Director", value: "site:linkedin.com/in/ \"Athletic Director\"" },
     { name: "Sports Manager", value: "site:linkedin.com/in/ \"Sports Manager\"" },
     { name: "Fitness Director", value: "site:linkedin.com/in/ \"Fitness Director\"" },
-    { name: "Coach / Head Coach", value: "site:linkedin.com/in/ Coach OR \"Head Coach\"" }
+    { name: "Coach / Head Coach", value: "site:linkedin.com/in/ Coach OR \"Head Coach\"" },
+
+    // ══════════════════════════════════════════════
+    // Apollo.io-Style Seniority, Departments & Industries
+    // ══════════════════════════════════════════════
+
+    // ── Seniority: Entry & Associate ──
+    { name: "Intern", value: "site:linkedin.com/in/ Intern" },
+    { name: "Associate", value: "site:linkedin.com/in/ Associate" },
+    { name: "Analyst", value: "site:linkedin.com/in/ Analyst" },
+    { name: "Junior Developer", value: "site:linkedin.com/in/ \"Junior Developer\"" },
+    { name: "Coordinator", value: "site:linkedin.com/in/ Coordinator" },
+    { name: "Assistant", value: "site:linkedin.com/in/ Assistant" },
+    { name: "Specialist", value: "site:linkedin.com/in/ Specialist" },
+    { name: "Technician", value: "site:linkedin.com/in/ Technician" },
+    { name: "Representative", value: "site:linkedin.com/in/ Representative" },
+    { name: "Administrator", value: "site:linkedin.com/in/ Administrator" },
+    { name: "Clerk", value: "site:linkedin.com/in/ Clerk" },
+    { name: "Apprentice", value: "site:linkedin.com/in/ Apprentice" },
+
+    // ── Seniority: Senior & Staff ──
+    { name: "Staff Engineer", value: "site:linkedin.com/in/ \"Staff Engineer\"" },
+    { name: "Senior Manager", value: "site:linkedin.com/in/ \"Senior Manager\"" },
+    { name: "Lead", value: "site:linkedin.com/in/ Lead" },
+    { name: "Team Lead", value: "site:linkedin.com/in/ \"Team Lead\"" },
+    { name: "Supervisor", value: "site:linkedin.com/in/ Supervisor" },
+    { name: "Senior Analyst", value: "site:linkedin.com/in/ \"Senior Analyst\"" },
+    { name: "Senior Associate", value: "site:linkedin.com/in/ \"Senior Associate\"" },
+    { name: "Senior Specialist", value: "site:linkedin.com/in/ \"Senior Specialist\"" },
+
+    // ── Seniority: Executive Variations ──
+    { name: "Chief Compliance Officer (CCO)", value: "site:linkedin.com/in/ \"Chief Compliance Officer\"" },
+    { name: "Chief Strategy Officer", value: "site:linkedin.com/in/ \"Chief Strategy Officer\"" },
+    { name: "Chief Growth Officer", value: "site:linkedin.com/in/ \"Chief Growth Officer\"" },
+    { name: "Chief People Officer", value: "site:linkedin.com/in/ \"Chief People Officer\"" },
+    { name: "Chief Communications Officer", value: "site:linkedin.com/in/ \"Chief Communications Officer\"" },
+    { name: "Chief Innovation Officer", value: "site:linkedin.com/in/ \"Chief Innovation Officer\"" },
+    { name: "Chief Sustainability Officer", value: "site:linkedin.com/in/ \"Chief Sustainability Officer\"" },
+    { name: "Chief Experience Officer", value: "site:linkedin.com/in/ \"Chief Experience Officer\"" },
+    { name: "Chief Digital Officer", value: "site:linkedin.com/in/ \"Chief Digital Officer\"" },
+    { name: "Chief Analytics Officer", value: "site:linkedin.com/in/ \"Chief Analytics Officer\"" },
+    { name: "Chief Procurement Officer", value: "site:linkedin.com/in/ \"Chief Procurement Officer\"" },
+    { name: "Chief Investment Officer", value: "site:linkedin.com/in/ \"Chief Investment Officer\"" },
+    { name: "Chief Architect", value: "site:linkedin.com/in/ \"Chief Architect\"" },
+    { name: "Chief Scientist", value: "site:linkedin.com/in/ \"Chief Scientist\"" },
+    { name: "Chief Evangelist", value: "site:linkedin.com/in/ \"Chief Evangelist\"" },
+
+    // ── Department: Data Science & Analytics ──
+    { name: "Head of Data", value: "site:linkedin.com/in/ \"Head of Data\"" },
+    { name: "Director of Analytics", value: "site:linkedin.com/in/ \"Director of Analytics\"" },
+    { name: "Analytics Manager", value: "site:linkedin.com/in/ \"Analytics Manager\"" },
+    { name: "Data Analyst", value: "site:linkedin.com/in/ \"Data Analyst\"" },
+    { name: "Senior Data Analyst", value: "site:linkedin.com/in/ \"Senior Data Analyst\"" },
+    { name: "Business Intelligence Analyst", value: "site:linkedin.com/in/ \"Business Intelligence Analyst\"" },
+    { name: "BI Developer", value: "site:linkedin.com/in/ \"BI Developer\" OR \"Business Intelligence Developer\"" },
+    { name: "Data Architect", value: "site:linkedin.com/in/ \"Data Architect\"" },
+    { name: "Statistician", value: "site:linkedin.com/in/ Statistician" },
+    { name: "Quantitative Analyst", value: "site:linkedin.com/in/ \"Quantitative Analyst\"" },
+
+    // ── Department: Revenue Operations ──
+    { name: "VP of Revenue Operations", value: "site:linkedin.com/in/ \"VP of Revenue Operations\"" },
+    { name: "Revenue Operations Manager", value: "site:linkedin.com/in/ \"Revenue Operations Manager\"" },
+    { name: "Sales Operations Manager", value: "site:linkedin.com/in/ \"Sales Operations Manager\"" },
+    { name: "Marketing Operations Manager", value: "site:linkedin.com/in/ \"Marketing Operations Manager\"" },
+    { name: "GTM Strategist", value: "site:linkedin.com/in/ \"Go-To-Market\" OR \"GTM\"" },
+
+    // ── Department: Partnerships & Alliances ──
+    { name: "VP of Partnerships", value: "site:linkedin.com/in/ \"VP of Partnerships\"" },
+    { name: "Director of Partnerships", value: "site:linkedin.com/in/ \"Director of Partnerships\"" },
+    { name: "Partnerships Manager", value: "site:linkedin.com/in/ \"Partnerships Manager\"" },
+    { name: "Channel Manager", value: "site:linkedin.com/in/ \"Channel Manager\"" },
+    { name: "Alliance Manager", value: "site:linkedin.com/in/ \"Alliance Manager\"" },
+    { name: "Strategic Partnerships", value: "site:linkedin.com/in/ \"Strategic Partnerships\"" },
+
+    // ── Department: Developer Relations ──
+    { name: "Developer Advocate", value: "site:linkedin.com/in/ \"Developer Advocate\"" },
+    { name: "Developer Relations Manager", value: "site:linkedin.com/in/ \"Developer Relations\"" },
+    { name: "Technical Evangelist", value: "site:linkedin.com/in/ \"Technical Evangelist\"" },
+    { name: "Developer Experience Engineer", value: "site:linkedin.com/in/ \"Developer Experience\"" },
+    { name: "Community Manager (Tech)", value: "site:linkedin.com/in/ \"Community Manager\"" },
+
+    // ── Department: Information Security ──
+    { name: "CISO / Chief Information Security Officer", value: "site:linkedin.com/in/ CISO OR \"Chief Information Security Officer\"" },
+    { name: "VP of Information Security", value: "site:linkedin.com/in/ \"VP of Information Security\"" },
+    { name: "Information Security Manager", value: "site:linkedin.com/in/ \"Information Security Manager\"" },
+    { name: "Security Architect", value: "site:linkedin.com/in/ \"Security Architect\"" },
+    { name: "Penetration Tester", value: "site:linkedin.com/in/ \"Penetration Tester\"" },
+    { name: "SOC Analyst", value: "site:linkedin.com/in/ \"SOC Analyst\"" },
+    { name: "GRC Analyst", value: "site:linkedin.com/in/ \"GRC Analyst\" OR \"Governance Risk Compliance\"" },
+    { name: "Threat Intelligence Analyst", value: "site:linkedin.com/in/ \"Threat Intelligence\"" },
+
+    // ── Department: Corporate Development & Strategy ──
+    { name: "VP of Corporate Development", value: "site:linkedin.com/in/ \"VP of Corporate Development\"" },
+    { name: "Corporate Development Manager", value: "site:linkedin.com/in/ \"Corporate Development\"" },
+    { name: "M&A Analyst", value: "site:linkedin.com/in/ \"M&A\" OR \"Mergers and Acquisitions\"" },
+    { name: "Strategy Director", value: "site:linkedin.com/in/ \"Strategy Director\" OR \"Director of Strategy\"" },
+    { name: "Strategy Manager", value: "site:linkedin.com/in/ \"Strategy Manager\"" },
+    { name: "Corporate Strategy Analyst", value: "site:linkedin.com/in/ \"Corporate Strategy\"" },
+
+    // ── Department: Investor Relations ──
+    { name: "VP of Investor Relations", value: "site:linkedin.com/in/ \"VP of Investor Relations\"" },
+    { name: "Investor Relations Manager", value: "site:linkedin.com/in/ \"Investor Relations Manager\"" },
+    { name: "Investor Relations Director", value: "site:linkedin.com/in/ \"Investor Relations Director\"" },
+
+    // ── Department: Enterprise Architecture ──
+    { name: "Enterprise Architect", value: "site:linkedin.com/in/ \"Enterprise Architect\"" },
+    { name: "IT Architect", value: "site:linkedin.com/in/ \"IT Architect\"" },
+    { name: "Application Architect", value: "site:linkedin.com/in/ \"Application Architect\"" },
+    { name: "Infrastructure Architect", value: "site:linkedin.com/in/ \"Infrastructure Architect\"" },
+
+    // ── Department: ERP & Business Systems ──
+    { name: "ERP Manager", value: "site:linkedin.com/in/ \"ERP Manager\"" },
+    { name: "SAP Consultant", value: "site:linkedin.com/in/ \"SAP Consultant\"" },
+    { name: "Salesforce Administrator", value: "site:linkedin.com/in/ \"Salesforce Administrator\" OR \"Salesforce Admin\"" },
+    { name: "CRM Manager", value: "site:linkedin.com/in/ \"CRM Manager\"" },
+
+    // ── Department: Supply Chain & Sourcing ──
+    { name: "VP of Supply Chain", value: "site:linkedin.com/in/ \"VP of Supply Chain\"" },
+    { name: "Supply Chain Director", value: "site:linkedin.com/in/ \"Supply Chain Director\"" },
+    { name: "Supply Chain Analyst", value: "site:linkedin.com/in/ \"Supply Chain Analyst\"" },
+    { name: "Sourcing Manager", value: "site:linkedin.com/in/ \"Sourcing Manager\"" },
+    { name: "Strategic Sourcing Manager", value: "site:linkedin.com/in/ \"Strategic Sourcing\"" },
+    { name: "Vendor Manager", value: "site:linkedin.com/in/ \"Vendor Manager\"" },
+    { name: "Inventory Manager", value: "site:linkedin.com/in/ \"Inventory Manager\"" },
+    { name: "Distribution Manager", value: "site:linkedin.com/in/ \"Distribution Manager\"" },
+
+    // ── Department: Diversity, Equity & Inclusion ──
+    { name: "Chief Diversity Officer", value: "site:linkedin.com/in/ \"Chief Diversity Officer\"" },
+    { name: "VP of Diversity & Inclusion", value: "site:linkedin.com/in/ \"VP of Diversity\" OR \"VP of Inclusion\"" },
+    { name: "DE&I Manager", value: "site:linkedin.com/in/ \"Diversity\" \"Inclusion\" Manager" },
+
+    // ── Department: Workplace & Office ──
+    { name: "Office Manager", value: "site:linkedin.com/in/ \"Office Manager\"" },
+    { name: "Workplace Manager", value: "site:linkedin.com/in/ \"Workplace Manager\"" },
+    { name: "Executive Assistant", value: "site:linkedin.com/in/ \"Executive Assistant\"" },
+    { name: "Administrative Manager", value: "site:linkedin.com/in/ \"Administrative Manager\"" },
+    { name: "Receptionist", value: "site:linkedin.com/in/ Receptionist" },
+
+    // ── Industry: SaaS & Software ──
+    { name: "SaaS Sales", value: "site:linkedin.com/in/ SaaS Sales" },
+    { name: "SaaS Account Executive", value: "site:linkedin.com/in/ SaaS \"Account Executive\"" },
+    { name: "SaaS Product Manager", value: "site:linkedin.com/in/ SaaS \"Product Manager\"" },
+    { name: "SaaS Customer Success", value: "site:linkedin.com/in/ SaaS \"Customer Success\"" },
+    { name: "Software Company - CEO", value: "site:linkedin.com/in/ CEO software" },
+    { name: "Software Company - CTO", value: "site:linkedin.com/in/ CTO software" },
+    { name: "Software Company - VP Sales", value: "site:linkedin.com/in/ \"VP of Sales\" software" },
+
+    // ── Industry: Fintech ──
+    { name: "Fintech CEO", value: "site:linkedin.com/in/ CEO fintech" },
+    { name: "Fintech Product Manager", value: "site:linkedin.com/in/ \"Product Manager\" fintech" },
+    { name: "Fintech Engineer", value: "site:linkedin.com/in/ engineer fintech" },
+    { name: "Payments Manager", value: "site:linkedin.com/in/ \"Payments Manager\"" },
+    { name: "Blockchain Developer", value: "site:linkedin.com/in/ \"Blockchain Developer\"" },
+    { name: "Crypto / Web3 Manager", value: "site:linkedin.com/in/ \"Crypto\" OR \"Web3\" Manager" },
+
+    // ── Industry: Healthtech & Biotech ──
+    { name: "Healthtech CEO", value: "site:linkedin.com/in/ CEO healthtech OR \"health tech\"" },
+    { name: "Healthtech Product Manager", value: "site:linkedin.com/in/ \"Product Manager\" healthtech OR \"health tech\"" },
+    { name: "Bioinformatics Scientist", value: "site:linkedin.com/in/ \"Bioinformatics Scientist\"" },
+    { name: "Clinical Operations Director", value: "site:linkedin.com/in/ \"Clinical Operations Director\"" },
+    { name: "Regulatory Affairs Manager", value: "site:linkedin.com/in/ \"Regulatory Affairs Manager\"" },
+    { name: "Medical Science Liaison", value: "site:linkedin.com/in/ \"Medical Science Liaison\"" },
+    { name: "Pharmaceutical Sales Rep", value: "site:linkedin.com/in/ \"Pharmaceutical Sales\"" },
+
+    // ── Industry: EdTech ──
+    { name: "EdTech CEO / Founder", value: "site:linkedin.com/in/ CEO OR Founder edtech OR \"ed tech\"" },
+    { name: "EdTech Product Manager", value: "site:linkedin.com/in/ \"Product Manager\" edtech" },
+    { name: "EdTech Sales", value: "site:linkedin.com/in/ Sales edtech OR \"education technology\"" },
+
+    // ── Industry: CleanTech & Renewable Energy ──
+    { name: "CleanTech CEO", value: "site:linkedin.com/in/ CEO cleantech OR \"clean tech\" OR \"clean energy\"" },
+    { name: "Solar Energy Manager", value: "site:linkedin.com/in/ \"Solar Energy Manager\"" },
+    { name: "Wind Energy Engineer", value: "site:linkedin.com/in/ \"Wind Energy Engineer\"" },
+    { name: "Sustainability Director", value: "site:linkedin.com/in/ \"Sustainability Director\"" },
+    { name: "ESG Manager", value: "site:linkedin.com/in/ \"ESG Manager\" OR \"ESG Director\"" },
+
+    // ── Industry: Aerospace & Defense ──
+    { name: "Aerospace Engineer", value: "site:linkedin.com/in/ \"Aerospace Engineer\"" },
+    { name: "Defense Program Manager", value: "site:linkedin.com/in/ \"Program Manager\" defense" },
+    { name: "Avionics Engineer", value: "site:linkedin.com/in/ \"Avionics Engineer\"" },
+    { name: "Space Systems Engineer", value: "site:linkedin.com/in/ \"Space Systems Engineer\"" },
+
+    // ── Industry: Cybersecurity ──
+    { name: "Cybersecurity Director", value: "site:linkedin.com/in/ \"Cybersecurity Director\"" },
+    { name: "Cybersecurity Engineer", value: "site:linkedin.com/in/ \"Cybersecurity Engineer\"" },
+    { name: "Cybersecurity Consultant", value: "site:linkedin.com/in/ \"Cybersecurity Consultant\"" },
+    { name: "Application Security Engineer", value: "site:linkedin.com/in/ \"Application Security Engineer\"" },
+    { name: "Security Operations Manager", value: "site:linkedin.com/in/ \"Security Operations Manager\"" },
+
+    // ── Industry: AI & Machine Learning ──
+    { name: "AI Research Scientist", value: "site:linkedin.com/in/ \"AI Research Scientist\" OR \"AI Researcher\"" },
+    { name: "NLP Engineer", value: "site:linkedin.com/in/ \"NLP Engineer\" OR \"Natural Language Processing\"" },
+    { name: "Computer Vision Engineer", value: "site:linkedin.com/in/ \"Computer Vision Engineer\"" },
+    { name: "ML Ops Engineer", value: "site:linkedin.com/in/ \"MLOps\" OR \"ML Ops\"" },
+    { name: "Deep Learning Engineer", value: "site:linkedin.com/in/ \"Deep Learning Engineer\"" },
+    { name: "AI Product Manager", value: "site:linkedin.com/in/ \"AI Product Manager\" OR \"AI\" \"Product Manager\"" },
+
+    // ── Industry: Cloud & Infrastructure ──
+    { name: "AWS Solutions Architect", value: "site:linkedin.com/in/ \"AWS\" \"Solutions Architect\"" },
+    { name: "Azure Architect", value: "site:linkedin.com/in/ \"Azure\" Architect" },
+    { name: "GCP Engineer", value: "site:linkedin.com/in/ \"GCP\" OR \"Google Cloud\" Engineer" },
+    { name: "Site Reliability Engineer (SRE)", value: "site:linkedin.com/in/ \"Site Reliability Engineer\" OR SRE" },
+    { name: "Platform Engineer", value: "site:linkedin.com/in/ \"Platform Engineer\"" },
+    { name: "Infrastructure Engineer", value: "site:linkedin.com/in/ \"Infrastructure Engineer\"" },
+
+    // ── Industry: E-Commerce & Marketplace ──
+    { name: "E-Commerce Director", value: "site:linkedin.com/in/ \"E-Commerce Director\" OR \"Ecommerce Director\"" },
+    { name: "Marketplace Manager", value: "site:linkedin.com/in/ \"Marketplace Manager\"" },
+    { name: "E-Commerce Product Manager", value: "site:linkedin.com/in/ \"E-Commerce\" OR \"Ecommerce\" \"Product Manager\"" },
+    { name: "Fulfillment Manager", value: "site:linkedin.com/in/ \"Fulfillment Manager\"" },
+    { name: "Amazon Seller / Vendor Manager", value: "site:linkedin.com/in/ Amazon \"Vendor Manager\" OR \"Seller Manager\"" },
+
+    // ── Industry: Gaming & Entertainment ──
+    { name: "Game Designer", value: "site:linkedin.com/in/ \"Game Designer\"" },
+    { name: "Game Developer / Programmer", value: "site:linkedin.com/in/ \"Game Developer\" OR \"Game Programmer\"" },
+    { name: "Game Producer", value: "site:linkedin.com/in/ \"Game Producer\"" },
+    { name: "Level Designer", value: "site:linkedin.com/in/ \"Level Designer\"" },
+    { name: "QA Tester (Gaming)", value: "site:linkedin.com/in/ \"QA Tester\" gaming" },
+
+    // ── Industry: Semiconductor & Hardware ──
+    { name: "Chip Design Engineer", value: "site:linkedin.com/in/ \"Chip Design Engineer\" OR \"IC Design\"" },
+    { name: "Hardware Engineer", value: "site:linkedin.com/in/ \"Hardware Engineer\"" },
+    { name: "Embedded Systems Engineer", value: "site:linkedin.com/in/ \"Embedded Systems Engineer\"" },
+    { name: "FPGA Engineer", value: "site:linkedin.com/in/ \"FPGA Engineer\"" },
+    { name: "Semiconductor Process Engineer", value: "site:linkedin.com/in/ \"Process Engineer\" semiconductor" },
+
+    // ── Industry: IoT & Robotics ──
+    { name: "IoT Engineer", value: "site:linkedin.com/in/ \"IoT Engineer\" OR \"Internet of Things\"" },
+    { name: "IoT Product Manager", value: "site:linkedin.com/in/ \"IoT\" \"Product Manager\"" },
+    { name: "Robotics Engineer", value: "site:linkedin.com/in/ \"Robotics Engineer\"" },
+    { name: "Automation Engineer", value: "site:linkedin.com/in/ \"Automation Engineer\"" },
+    { name: "Controls Engineer", value: "site:linkedin.com/in/ \"Controls Engineer\"" },
+
+    // ── Industry: Fashion & Apparel ──
+    { name: "Fashion Designer", value: "site:linkedin.com/in/ \"Fashion Designer\"" },
+    { name: "Fashion Buyer", value: "site:linkedin.com/in/ \"Fashion Buyer\"" },
+    { name: "Fashion Merchandiser", value: "site:linkedin.com/in/ \"Fashion Merchandiser\"" },
+    { name: "Apparel Product Manager", value: "site:linkedin.com/in/ \"Apparel\" \"Product Manager\"" },
+    { name: "Textile Engineer", value: "site:linkedin.com/in/ \"Textile Engineer\"" },
+
+    // ── Industry: Food & Beverage ──
+    { name: "Food Scientist", value: "site:linkedin.com/in/ \"Food Scientist\"" },
+    { name: "Food Safety Manager", value: "site:linkedin.com/in/ \"Food Safety Manager\"" },
+    { name: "Beverage Director", value: "site:linkedin.com/in/ \"Beverage Director\"" },
+    { name: "Supply Chain Manager (F&B)", value: "site:linkedin.com/in/ \"Supply Chain Manager\" food OR beverage" },
+
+    // ── Industry: Mining & Natural Resources ──
+    { name: "Mining Engineer", value: "site:linkedin.com/in/ \"Mining Engineer\"" },
+    { name: "Geologist", value: "site:linkedin.com/in/ Geologist" },
+    { name: "Mine Manager", value: "site:linkedin.com/in/ \"Mine Manager\"" },
+    { name: "Exploration Manager", value: "site:linkedin.com/in/ \"Exploration Manager\"" },
+
+    // ── Industry: Maritime & Shipping ──
+    { name: "Maritime Manager", value: "site:linkedin.com/in/ \"Maritime Manager\"" },
+    { name: "Shipping Manager", value: "site:linkedin.com/in/ \"Shipping Manager\"" },
+    { name: "Port Manager", value: "site:linkedin.com/in/ \"Port Manager\"" },
+    { name: "Marine Engineer", value: "site:linkedin.com/in/ \"Marine Engineer\"" },
+
+    // ── Industry: Pharmaceuticals ──
+    { name: "Pharmaceutical Director", value: "site:linkedin.com/in/ \"Pharmaceutical Director\"" },
+    { name: "Drug Development Manager", value: "site:linkedin.com/in/ \"Drug Development Manager\"" },
+    { name: "Pharmacovigilance Manager", value: "site:linkedin.com/in/ \"Pharmacovigilance Manager\"" },
+    { name: "Clinical Trial Manager", value: "site:linkedin.com/in/ \"Clinical Trial Manager\"" },
+    { name: "Medical Affairs Director", value: "site:linkedin.com/in/ \"Medical Affairs Director\"" },
+
+    // ── Industry: AR / VR / 3D ──
+    { name: "AR/VR Developer", value: "site:linkedin.com/in/ \"AR\" OR \"VR\" OR \"Augmented Reality\" OR \"Virtual Reality\" developer" },
+    { name: "3D Artist / Modeler", value: "site:linkedin.com/in/ \"3D Artist\" OR \"3D Modeler\"" },
+    { name: "XR Product Manager", value: "site:linkedin.com/in/ \"XR\" OR \"Extended Reality\" \"Product Manager\"" },
+
+    // ══════════════════════════════════════════════
+    // ISP Email Domain Footprints
+    // ══════════════════════════════════════════════
+
+    // ── ISP / Webmail Emails ──
+    { name: "ISP: Gmail contacts", value: "\"@gmail.com\"" },
+    { name: "ISP: Yahoo contacts", value: "\"@yahoo.com\"" },
+    { name: "ISP: Outlook contacts", value: "\"@outlook.com\"" },
+    { name: "ISP: Hotmail contacts", value: "\"@hotmail.com\"" },
+    { name: "ISP: AOL contacts", value: "\"@aol.com\"" },
+    { name: "ISP: iCloud contacts", value: "\"@icloud.com\"" },
+    { name: "ISP: ProtonMail contacts", value: "\"@protonmail.com\" OR \"@proton.me\"" },
+    { name: "ISP: Zoho contacts", value: "\"@zoho.com\"" },
+    { name: "ISP: Mail.com contacts", value: "\"@mail.com\"" },
+    { name: "ISP: GMX contacts", value: "\"@gmx.com\" OR \"@gmx.net\"" },
+    { name: "ISP: Yandex contacts", value: "\"@yandex.com\" OR \"@yandex.ru\"" },
+    { name: "ISP: Comcast contacts", value: "\"@comcast.net\"" },
+    { name: "ISP: AT&T contacts", value: "\"@att.net\" OR \"@sbcglobal.net\"" },
+    { name: "ISP: Verizon contacts", value: "\"@verizon.net\"" },
+    { name: "ISP: Cox contacts", value: "\"@cox.net\"" },
+    { name: "ISP: Charter/Spectrum contacts", value: "\"@charter.net\" OR \"@spectrum.net\"" },
+    { name: "ISP: BT contacts (UK)", value: "\"@btinternet.com\"" },
+    { name: "ISP: Virgin Media (UK)", value: "\"@virginmedia.com\"" },
+    { name: "ISP: Sky contacts (UK)", value: "\"@sky.com\"" },
+    { name: "ISP: Telstra contacts (AU)", value: "\"@bigpond.com\"" },
+    { name: "ISP: Rogers contacts (CA)", value: "\"@rogers.com\"" },
+    { name: "ISP: Shaw contacts (CA)", value: "\"@shaw.ca\"" },
+    { name: "ISP: All major ISP emails", value: "\"@gmail.com\" OR \"@yahoo.com\" OR \"@outlook.com\" OR \"@hotmail.com\" OR \"@aol.com\"" },
+
+    // ══════════════════════════════════════════════
+    // Business / Company Email Footprints
+    // ══════════════════════════════════════════════
+
+    // ── Business Email Patterns ──
+    { name: "Business: Company emails (exclude ISP)", value: "\"@\" -\"@gmail.com\" -\"@yahoo.com\" -\"@outlook.com\" -\"@hotmail.com\" -\"@aol.com\" -\"@icloud.com\"" },
+    { name: "Business: Company emails (exclude all free)", value: "\"@\" -\"@gmail\" -\"@yahoo\" -\"@outlook\" -\"@hotmail\" -\"@aol\" -\"@icloud\" -\"@protonmail\" -\"@mail.com\" -\"@gmx\"" },
+    { name: "Business: CEO email", value: "CEO \"@\" email -\"@gmail.com\" -\"@yahoo.com\" -\"@hotmail.com\"" },
+    { name: "Business: CTO email", value: "CTO \"@\" email -\"@gmail.com\" -\"@yahoo.com\" -\"@hotmail.com\"" },
+    { name: "Business: CFO email", value: "CFO \"@\" email -\"@gmail.com\" -\"@yahoo.com\" -\"@hotmail.com\"" },
+    { name: "Business: HR email", value: "\"Human Resources\" OR HR \"@\" email -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Sales email", value: "Sales \"@\" email -\"@gmail.com\" -\"@yahoo.com\" -\"@hotmail.com\"" },
+    { name: "Business: Marketing email", value: "Marketing \"@\" email -\"@gmail.com\" -\"@yahoo.com\" -\"@hotmail.com\"" },
+    { name: "Business: IT Department email", value: "\"IT Manager\" OR \"IT Director\" \"@\" email -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Finance Department email", value: "\"Finance\" OR \"Accounting\" \"@\" email -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Procurement email", value: "\"Procurement\" OR \"Purchasing\" \"@\" email -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Legal Department email", value: "\"Legal\" OR \"Counsel\" \"@\" email -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Operations email", value: "\"Operations\" OR \"COO\" \"@\" email -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Contact Us page emails", value: "\"contact us\" \"@\" email" },
+    { name: "Business: About page emails", value: "\"about us\" \"@\" email" },
+    { name: "Business: Staff directory emails", value: "\"staff directory\" OR \"our team\" \"@\" email" },
+
+    // ── Industry-Specific Business Emails ──
+    { name: "Business: Technology companies", value: "\"@\" email technology OR software OR SaaS -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Healthcare companies", value: "\"@\" email healthcare OR medical OR hospital -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Financial services", value: "\"@\" email \"financial services\" OR banking OR insurance -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Manufacturing companies", value: "\"@\" email manufacturing OR industrial -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Retail companies", value: "\"@\" email retail OR ecommerce -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Real estate companies", value: "\"@\" email \"real estate\" OR property -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Education institutions", value: "\"@\" email university OR college OR school OR \".edu\"" },
+    { name: "Business: Government agencies", value: "\"@\" email government OR \".gov\"" },
+    { name: "Business: Legal firms", value: "\"@\" email \"law firm\" OR attorney OR legal -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Consulting firms", value: "\"@\" email consulting OR consultancy -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Construction companies", value: "\"@\" email construction OR contractor OR builder -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Logistics companies", value: "\"@\" email logistics OR shipping OR freight -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Pharma companies", value: "\"@\" email pharmaceutical OR pharma OR biotech -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Telecom companies", value: "\"@\" email telecom OR telecommunications -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Automotive companies", value: "\"@\" email automotive OR automobile OR dealership -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Energy companies", value: "\"@\" email energy OR oil OR gas OR utility -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Hospitality companies", value: "\"@\" email hotel OR hospitality OR resort -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Agriculture companies", value: "\"@\" email agriculture OR farming OR agribusiness -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Nonprofit organizations", value: "\"@\" email nonprofit OR \"non-profit\" OR NGO OR charity -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "Business: Media & Advertising", value: "\"@\" email media OR advertising OR \"ad agency\" -\"@gmail.com\" -\"@yahoo.com\"" }
 ];
 
 serpdigger.api.footprints.get = function (callback) {
