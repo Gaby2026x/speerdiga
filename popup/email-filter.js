@@ -26,7 +26,10 @@ _onInit(function () {
 
     // On load, sync the dropdown with any stored pattern value
     chrome.storage.local.get('patterns', function (items) {
-        if (!items.patterns) return;
+        if (!items.patterns) {
+            $('#email-type-select').val('custom');
+            return;
+        }
         var stored = items.patterns.trim();
         var matched = false;
         Object.keys(_emailTypePresets).forEach(function (key) {
