@@ -151,7 +151,10 @@ Runner.prototype.extract = function () {
         var $this = $(this);
         var emails = ($this.find('.gs-snippet').text().match(EMAIL_REGEXP) || []);
         emails.forEach(function (email) {
-            if (!runner.options.queryObject || !runner.options.queryObject[1]) { return }
+            if (!runner.options.queryObject || !runner.options.queryObject[1]) {
+                log.w('Runner/extract', 'skipping email - queryObject[1] is missing');
+                return;
+            }
             var emailObject = runner.options.queryObject[1].replace(/"/g, '');
             var emailParsed = email.toLowerCase().replace(/\s{1,}/gi, '');
             var emailResult = emailParsed.split(emailObject);
