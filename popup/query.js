@@ -148,11 +148,12 @@ function cartesian() {
     return r;
 }
 
-function buildQueries(footprints, patterns, location, cse) {
+function buildQueries(footprints, patterns, location, secondTerms) {
     return cartesian(
         (footprints.length ? footprints : [null]),
         (patterns.length ? patterns : [null]),
-        (location.length ? location : [null])
+        (location.length ? location : [null]),
+        (secondTerms.length ? secondTerms : [null])
     );
 }
 
@@ -173,14 +174,17 @@ function modifyExactMatch(exactMatch, str) {
 var EMAIL_PATTERN_CHECK = /^(?:[\s]+)?@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:[\s]+)?$/;
 
 function getQueries() {
+    var locationExactMatch = $('#location-exact-match-checkbox').get(0).checked;
+    var term2ExactMatch = $('#term2-exact-match-checkbox').get(0).checked;
+
     var queries = buildQueries(
         $('#footprint-input').val().split(/[\n]+/g).filter(function (s) {return s.trim().length}),
 
         $('#pattern-input').val().split(/[\n]+/g).filter(function (p) {return EMAIL_PATTERN_CHECK.test(p)}).map(function (e) {return '"'+e+'"'}).map(modifyExactMatch.bind(void 0, true)),
 
-        $('#location-input').val().split(/[\n]+/g).filter(function (s) {return s.trim().length}),
+        $('#location-input').val().split(/[\n]+/g).filter(function (s) {return s.trim().length}).map(modifyExactMatch.bind(void 0, locationExactMatch)),
 
-        $('#cse-address-input').val().split(/[\n]+/g).filter(function (s) {return s.trim().length})
+        $('#term2-input').val().split(/[\n]+/g).filter(function (s) {return s.trim().length}).map(modifyExactMatch.bind(void 0, term2ExactMatch))
     ).filter(function (query) {
         log.i('filter', query);
         return query.filter(function (s) {return s && s.trim().length}).length;
@@ -245,8 +249,8 @@ _onInit(function () {
     restoreSecondTermsFromStorage();
     restoreDelay();
     restoreRemoveDuplicates();
-    // restoreLocationExactMatch();
-    // restoreTerm2ExactMatch();
+    restoreLocationExactMatch();
+    restoreTerm2ExactMatch();
     
     log.i('after query : ', $('#delayInput').val());
     

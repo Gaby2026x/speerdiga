@@ -59,6 +59,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     // log.w('onUpdated', tabId, changeInfo, tab);
         
     if(!serpdigger.runner.current.running) return;
+    if(!serpdigger.runner.current.tab) return;
     if(tabId != serpdigger.runner.current.tab.id) return;
     // if(changeInfo.status != 'complete') return;
 
@@ -68,7 +69,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
             eventName: 'run',
             eventData: {
                 removeDuplicates: current.removeDuplicates,
-                delay: current.currentQueryDelay,
+                delay: current.delay,
                 foundEmails: current.emailsFound.length,
                 queryNumber: current.currentQuery + 1,
                 totalQueries: current.allQueries.length,
@@ -120,9 +121,11 @@ function _onRunnerStopped() {
     if(popup) {
         popup.updateButtons();
     }
-    chrome.tabs.sendMessage(serpdigger.runner.current.tab.id, {
-        eventName: 'stopped'
-    });
+    if (serpdigger.runner.current.tab) {
+        chrome.tabs.sendMessage(serpdigger.runner.current.tab.id, {
+            eventName: 'stopped'
+        });
+    }
     serpdigger.runner.current.tab = null;
 }
 
@@ -164,7 +167,8 @@ serpdigger.run = function (queries) {
         popup.updateButtons();
     }
 
-    chrome.tabs.query({active: true}, function (tabs) {
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        if (!tabs || !tabs[0]) { return; }
         serpdigger.runner.current.tab = tabs[0];
         _nextRunner();
     });

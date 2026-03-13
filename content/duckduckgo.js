@@ -51,7 +51,7 @@ Runner.prototype.start = function (originalCallback) {
             return;
         }
 
-        var isNoResults = $('.gsc-result .gs-no-results-result').size() > 0;
+        var isNoResults = $('.gsc-result .gs-no-results-result').length > 0;
 
         if(isNoResults) {
             log.i('Runner/start/nextPage/Finished');

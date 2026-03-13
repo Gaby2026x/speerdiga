@@ -21,7 +21,7 @@ _addListener("account:check", function (data, sender, respond) {
     serpdigger.api.registration.status(data.username, data.password, function (status) {
         respond({paid: status == serpdigger.api.registration.PAID});
     });
-})
+});
 
 _addListener("account:save", function (data, sender, respond) {
     serpdigger.account.save(data.username, data.password, function () {

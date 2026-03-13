@@ -41,6 +41,9 @@ serpdigger.api.footprints.get = function (callback) {
         cache: false,
         success: function (data) {
             callback(_parseFootprints(data));
+        },
+        error: function () {
+            callback([]);
         }
     });
 };
