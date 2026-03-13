@@ -2,7 +2,7 @@ var PAID = false;
 
 function updatePaidStatus(paid) {
     PAID = paid;
-    chrome.extension.getBackgroundPage().serpdigger.paid = paid;
+    _sendEvent('state:setPaid', {paid: paid});
 }
 
 function updateAccountStatus(username, password, callback) {

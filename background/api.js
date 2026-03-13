@@ -7,17 +7,24 @@ serpdigger.api.registration = {
 
 serpdigger.api.registration.status = function (username, password, callback) {
     
-    var data = {};
-    data[serpdigger.config.api.registration.status.keys.username] = username;
-    data[serpdigger.config.api.registration.status.keys.password] = password;
+    var data = new URLSearchParams();
+    data.append(serpdigger.config.api.registration.status.keys.username, username);
+    data.append(serpdigger.config.api.registration.status.keys.password, password);
     
-    $.ajax({
-        url: serpdigger.config.api.registration.status.url,
+    fetch(serpdigger.config.api.registration.status.url, {
         method: serpdigger.config.api.registration.status.method,
-        data: data,
-        headers: {"Authorization": "Basic " + btoa(serpdigger.config.api.httpuser + ":" + serpdigger.config.api.httppass)},
-        success: function(data) { callback((data == "VALID|PAID") ? serpdigger.api.registration.PAID : serpdigger.api.registration.TRIAL); },
-        error: function() { callback(serpdigger.api.registration.TRIAL); }
+        headers: {
+            "Authorization": "Basic " + btoa(serpdigger.config.api.httpuser + ":" + serpdigger.config.api.httppass),
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: data
+    })
+    .then(function(response) { return response.text(); })
+    .then(function(text) {
+        callback((text == "VALID|PAID") ? serpdigger.api.registration.PAID : serpdigger.api.registration.TRIAL);
+    })
+    .catch(function() {
+        callback(serpdigger.api.registration.TRIAL);
     });
     
 };
@@ -35,15 +42,15 @@ function _parseFootprints(str) {
 }
 
 serpdigger.api.footprints.get = function (callback) {
-    $.ajax({
-        url: serpdigger.config.api.footprints.url,
+    fetch(serpdigger.config.api.footprints.url, {
         method: serpdigger.config.api.footprints.method,
-        cache: false,
-        success: function (data) {
-            callback(_parseFootprints(data));
-        },
-        error: function () {
-            callback([]);
-        }
+        cache: 'no-cache'
+    })
+    .then(function(response) { return response.text(); })
+    .then(function(data) {
+        callback(_parseFootprints(data));
+    })
+    .catch(function() {
+        callback([]);
     });
 };

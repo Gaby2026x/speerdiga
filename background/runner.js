@@ -15,6 +15,22 @@ serpdigger.runner = {
     } 
 };
 
+function _notifyPopup(eventName, data) {
+    chrome.runtime.sendMessage(Object.assign({eventName: eventName}, data || {})).catch(function() {});
+}
+
+function _getRunnerState() {
+    return {
+        running: serpdigger.runner.current.running,
+        complete: serpdigger.runner.current.complete,
+        stopped: serpdigger.runner.current.stopped,
+        emailCount: serpdigger.runner.current.emailsFound.length,
+        currentQuery: serpdigger.runner.current.currentQuery,
+        totalQueries: serpdigger.runner.current.allQueries.length,
+        queryString: serpdigger.runner.current.allQueries[serpdigger.runner.current.currentQuery] || ''
+    };
+}
+
 chrome.storage.local.get('delay', function (items) {
     if((items.delay !== undefined) && (items.delay !== null)) {
         serpdigger.runner.current.delay = items.delay * 1000;
@@ -31,8 +47,7 @@ chrome.runtime.onMessage.addListener(
                 }
             });
             
-            var popup = chrome.extension.getViews({type: 'popup'})[0];
-            popup && popup.updateNumberOfEmailsFound(serpdigger.runner.current.emailsFound.length);
+            _notifyPopup('popup:emailCount', {count: serpdigger.runner.current.emailsFound.length});
         } else if (request.eventName === 'runner:finish') {
             var delay = (0.5 + Math.random()) * serpdigger.runner.current.delay;
             
@@ -78,13 +93,12 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
             }
         });
 
-        var popup = chrome.extension.getViews({type: 'popup'})[0];
-        if(popup) {
-            popup.updateTotalNumberOfQueries(serpdigger.runner.current.allQueries.length);
-            popup.updateCurrentQueryNumber(serpdigger.runner.current.currentQuery + 1);
-            popup.updateCurrentQueryString(serpdigger.runner.current.allQueries[serpdigger.runner.current.currentQuery]);
-            popup.updateButtons();
-        }
+        _notifyPopup('popup:progress', {
+            totalQueries: serpdigger.runner.current.allQueries.length,
+            currentQuery: serpdigger.runner.current.currentQuery + 1,
+            queryString: serpdigger.runner.current.allQueries[serpdigger.runner.current.currentQuery]
+        });
+        _notifyPopup('popup:buttons', {state: _getRunnerState()});
     }
 })
 
@@ -117,10 +131,7 @@ function _onRunnerStopped() {
     serpdigger.runner.current.stopped = true;
     serpdigger.runner.current.running = false;
     serpdigger.runner.current.complete = false;
-    var popup = chrome.extension.getViews({type: 'popup'})[0];
-    if(popup) {
-        popup.updateButtons();
-    }
+    _notifyPopup('popup:buttons', {state: _getRunnerState()});
     if (serpdigger.runner.current.tab) {
         chrome.tabs.sendMessage(serpdigger.runner.current.tab.id, {
             eventName: 'stopped'
@@ -133,12 +144,7 @@ function _onRunnerFinish() {
     log.i('_onRunnerFinish()');
     serpdigger.runner.current.running = false;
     serpdigger.runner.current.complete = true;
-    var popup = chrome.extension.getViews({type: 'popup'})[0];
-    if(popup) {
-        popup.hideCurrentQueryString();
-        popup.showCompleteStatus();
-        popup.updateButtons();
-    }
+    _notifyPopup('popup:complete', {state: _getRunnerState()});
     serpdigger.runner.current.tab = null;
 };
 
@@ -153,19 +159,13 @@ serpdigger.run = function (queries) {
     serpdigger.runner.current.queries = queries.obj;
     serpdigger.runner.current.emailsFound = [];
 
-    var popup = chrome.extension.getViews({type: 'popup'})[0];
-
-    log.i('run', !!popup);
-
-    if(popup) {
-        popup.updateNumberOfEmailsFound(0);
-        popup.updateTotalNumberOfQueries(queries.str.length);
-        popup.updateCurrentQueryNumber(1);
-        popup.updateCurrentQueryString(queries.str[0]);
-        popup.showCurrentQueryString();
-        popup.hideCompleteStatus();
-        popup.updateButtons();
-    }
+    _notifyPopup('popup:emailCount', {count: 0});
+    _notifyPopup('popup:progress', {
+        totalQueries: queries.str.length,
+        currentQuery: 1,
+        queryString: queries.str[0]
+    });
+    _notifyPopup('popup:started', {state: _getRunnerState()});
 
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         if (!tabs || !tabs[0]) { return; }

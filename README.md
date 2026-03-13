@@ -2,7 +2,7 @@
 
 Serpdigger is a Chrome extension that scrapes email addresses from [Google Custom Search Engine (CSE)](https://cse.google.com/) results. It automates search queries using configurable footprints, email patterns, locations, and secondary terms, then collects and deduplicates email addresses found in the results.
 
-> **Version:** 3.0.11 · **Manifest:** v2
+> **Version:** 3.1.0 · **Manifest:** v3
 
 ---
 
@@ -34,17 +34,35 @@ Before installing Serpdigger you need:
 
 ## Installation
 
-Serpdigger is loaded as an unpacked extension in Chrome Developer Mode:
+Serpdigger is loaded as an unpacked extension in Chrome Developer Mode.
 
-1. **Download / clone** this repository to your computer:
+### Option A — Clone with Git (recommended)
+
+1. Open a terminal and run:
    ```bash
    git clone https://github.com/Gaby2026x/speerdiga.git
    ```
 2. Open Chrome and navigate to `chrome://extensions/`.
 3. Enable **Developer mode** (toggle in the top-right corner).
 4. Click **Load unpacked**.
-5. Select the root folder of this repository (the one containing `manifest.json`).
+5. Select the `speerdiga` folder (the one that directly contains `manifest.json`).
 6. The Serpdigger icon will appear in your browser toolbar.
+
+### Option B — Download as ZIP
+
+1. On the GitHub page, click the green **Code** button → **Download ZIP**.
+2. **Extract / unzip** the downloaded file (`speerdiga-main.zip`).
+3. Open Chrome and navigate to `chrome://extensions/`.
+4. Enable **Developer mode** (toggle in the top-right corner).
+5. Click **Load unpacked**.
+6. Browse into the **extracted folder** and select the inner `speerdiga-main` folder — this is the one that directly contains `manifest.json`.
+7. The Serpdigger icon will appear in your browser toolbar.
+
+> ⚠️ **Common error: "Manifest file is missing or unreadable"**
+> This means Chrome cannot find `manifest.json` in the folder you selected. Make sure you:
+> - **Extracted** the ZIP file first (don't try to load the `.zip` file itself).
+> - Selected the folder that **directly contains** `manifest.json`, not a parent folder.
+> - The folder name is usually `speerdiga-main` after extraction.
 
 ---
 
@@ -129,10 +147,11 @@ All field values and options are **automatically saved** to Chrome local storage
 
 ```
 speerdiga/
-├── manifest.json              # Chrome extension manifest (v2)
+├── manifest.json              # Chrome extension manifest (v3)
 ├── README.md                  # This file
 │
-├── background/                # Background scripts (persistent)
+├── background/                # Background service worker scripts
+│   ├── service-worker.js      # Service worker entry point
 │   ├── index.js               # Global config & state
 │   ├── api.js                 # API calls (auth, footprints)
 │   ├── account.js             # Account storage (save/load/clear)
@@ -194,6 +213,7 @@ Popup                    Background                Content Script
 
 | Problem | Solution |
 |---------|----------|
+| **"Manifest file is missing or unreadable"** | You selected the wrong folder. Make sure you extracted the ZIP file first, then select the folder that **directly contains** `manifest.json` (e.g. `speerdiga-main`), not its parent. |
 | Extension doesn't appear in toolbar | Make sure Developer Mode is enabled and the extension is loaded from the correct folder. |
 | "Checking account..." stays forever | The authentication server may be unreachable. The extension still works in trial mode. |
 | No emails found | Verify your CSE URL is correct and returns results. Check that your `@ Patterns` use valid email domains (e.g. `@gmail.com`). |

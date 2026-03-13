@@ -63,10 +63,10 @@ function restoreDelay() {
         if(((items.delay === undefined) || (items.delay === null))) {
             $('#delayInput').val(10);
             $('#delayInput').change();
-            chrome.extension.getBackgroundPage().serpdigger.runner.current.delay = 10000;
+            _sendEvent('state:setDelay', {delay: 10000});
         } else {
             $('#delayInput').val(items.delay);
-            chrome.extension.getBackgroundPage().serpdigger.runner.current.delay = items.delay*1000;
+            _sendEvent('state:setDelay', {delay: items.delay * 1000});
         }
     });
 }
