@@ -148,6 +148,14 @@ function cartesian() {
     return r;
 }
 
+/**
+ * Build all query combinations as a cartesian product of the input arrays.
+ * @param {string[]} footprints - Site footprint terms
+ * @param {string[]} patterns - Email @ pattern terms (e.g. "@gmail.com")
+ * @param {string[]} location - Location filter terms
+ * @param {string[]} secondTerms - Additional secondary search terms
+ * @returns {Array[]} Array of query arrays, one per combination
+ */
 function buildQueries(footprints, patterns, location, secondTerms) {
     return cartesian(
         (footprints.length ? footprints : [null]),

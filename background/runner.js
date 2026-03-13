@@ -178,12 +178,14 @@ serpdigger.stop = function () {
     _onRunnerStopped();
 };
 
+var FREE_ACCOUNT_EMAIL_LIMIT = 100;
+
 serpdigger.download = function () {
     var date = new Date;
     var dateString = (date.getDate()) + '-' + (date.getMonth()+1) + '-' + (date.getFullYear());
     var timeString = date.getHours() + '-' + date.getMinutes();
     var emails = serpdigger.runner.current.emailsFound
-    emails = serpdigger.paid ? emails : emails.slice(0, 100)
+    emails = serpdigger.paid ? emails : emails.slice(0, FREE_ACCOUNT_EMAIL_LIMIT)
     chrome.downloads.download({
         url: 'data:text/plain;base64,' + btoa(emails.join("\r\n")),
         filename: 'serpdigger_'+dateString+'_'+timeString+'.txt',
