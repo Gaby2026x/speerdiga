@@ -16,7 +16,9 @@ serpdigger.runner = {
 };
 
 function _notifyPopup(eventName, data) {
-    chrome.runtime.sendMessage(Object.assign({eventName: eventName}, data || {})).catch(function() {});
+    chrome.runtime.sendMessage(Object.assign({eventName: eventName}, data || {})).catch(function(err) {
+        log.w('_notifyPopup: popup not open or message failed for', eventName);
+    });
 }
 
 function _getRunnerState() {
@@ -168,7 +170,11 @@ serpdigger.run = function (queries) {
     _notifyPopup('popup:started', {state: _getRunnerState()});
 
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
-        if (!tabs || !tabs[0]) { return; }
+        if (!tabs || !tabs[0]) {
+            log.e('No active tab found');
+            _onRunnerStopped();
+            return;
+        }
         serpdigger.runner.current.tab = tabs[0];
         _nextRunner();
     });
