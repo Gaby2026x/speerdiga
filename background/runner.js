@@ -138,11 +138,12 @@ var _ISP_DOMAINS = {
 };
 
 function _isJunkEmail(email) {
+    var domain = email.split('@')[1] || '';
     return /^(noreply|no-reply|no_reply|donotreply|mailer-daemon|postmaster|webmaster)@/.test(email)
         || /\.(png|jpg|jpeg|gif|svg|css|js|woff|ttf|eot)$/i.test(email)
-        || email.indexOf('example.com') !== -1
-        || email.indexOf('sentry.io') !== -1
-        || email.indexOf('wixpress.com') !== -1;
+        || domain === 'example.com'
+        || domain === 'sentry.io'
+        || domain === 'wixpress.com';
 }
 
 function _deepFetchPage(url, pattern, removeDuplicates) {
@@ -164,8 +165,8 @@ function _deepFetchPage(url, pattern, removeDuplicates) {
         return response.text();
     })
     .then(function(html) {
-        var text = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ')
-                       .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, ' ')
+        var text = html.replace(/<script\b[^>]*>[\s\S]*?<\/\s*script[^>]*>/gi, ' ')
+                       .replace(/<style\b[^>]*>[\s\S]*?<\/\s*style[^>]*>/gi, ' ')
                        .replace(/<[^>]+>/g, ' ');
 
         var rawEmails = text.match(_DEEP_EMAIL_REGEXP) || [];
