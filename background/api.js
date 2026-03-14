@@ -620,6 +620,150 @@ var _builtinFootprints = [
     { name: "3D Artist / Modeler", value: "site:linkedin.com/in/ \"3D Artist\" OR \"3D Modeler\"" },
     { name: "XR Product Manager", value: "site:linkedin.com/in/ \"XR\" OR \"Extended Reality\" \"Product Manager\"" },
 
+    // ── Blockchain / Crypto / Web3 ──
+    { name: "Blockchain / Smart Contract Developer", value: "site:linkedin.com/in/ \"Blockchain Developer\" OR \"Smart Contract Developer\"" },
+    { name: "Crypto Analyst", value: "site:linkedin.com/in/ \"Crypto Analyst\" OR \"Cryptocurrency Analyst\"" },
+    { name: "Web3 Developer", value: "site:linkedin.com/in/ \"Web3 Developer\" OR \"DeFi Developer\"" },
+    { name: "Tokenomics Specialist", value: "site:linkedin.com/in/ \"Tokenomics\" OR \"Token Economics\"" },
+    { name: "NFT Project Manager", value: "site:linkedin.com/in/ \"NFT\" \"Project Manager\" OR \"NFT Lead\"" },
+    { name: "Head of Crypto / Blockchain", value: "site:linkedin.com/in/ \"Head of\" crypto OR blockchain" },
+
+    // ── LegalTech ──
+    { name: "LegalTech Product Manager", value: "site:linkedin.com/in/ \"LegalTech\" OR \"Legal Technology\" \"Product Manager\"" },
+    { name: "Legal Operations Manager", value: "site:linkedin.com/in/ \"Legal Operations Manager\"" },
+    { name: "E-Discovery Specialist", value: "site:linkedin.com/in/ \"eDiscovery\" OR \"E-Discovery\" specialist" },
+    { name: "Contract Manager / Analyst", value: "site:linkedin.com/in/ \"Contract Manager\" OR \"Contract Analyst\"" },
+    { name: "Compliance Technology Lead", value: "site:linkedin.com/in/ \"Compliance\" technology OR \"RegTech\"" },
+
+    // ── PropTech / Real Estate Tech ──
+    { name: "PropTech Founder / CEO", value: "site:linkedin.com/in/ \"PropTech\" OR \"Property Technology\" CEO OR Founder" },
+    { name: "Real Estate Technology Manager", value: "site:linkedin.com/in/ \"Real Estate\" technology manager" },
+    { name: "Property Management Director", value: "site:linkedin.com/in/ \"Property Management\" Director" },
+
+    // ── InsurTech ──
+    { name: "InsurTech Product Manager", value: "site:linkedin.com/in/ \"InsurTech\" OR \"Insurance Technology\" \"Product Manager\"" },
+    { name: "Actuarial Data Scientist", value: "site:linkedin.com/in/ \"Actuarial\" OR \"Actuary\" \"Data Scientist\"" },
+    { name: "Insurance Underwriting Manager", value: "site:linkedin.com/in/ \"Underwriting Manager\" insurance" },
+
+    // ── Additional Roles Across Industries ──
+    { name: "Senior Project Manager", value: "site:linkedin.com/in/ \"Senior Project Manager\"" },
+    { name: "Senior Program Manager", value: "site:linkedin.com/in/ \"Senior Program Manager\"" },
+    { name: "Senior Business Analyst", value: "site:linkedin.com/in/ \"Senior Business Analyst\"" },
+    { name: "Senior Financial Analyst", value: "site:linkedin.com/in/ \"Senior Financial Analyst\"" },
+    { name: "Marketing Analyst", value: "site:linkedin.com/in/ \"Marketing Analyst\"" },
+    { name: "Operations Analyst", value: "site:linkedin.com/in/ \"Operations Analyst\"" },
+    { name: "Sales Coordinator", value: "site:linkedin.com/in/ \"Sales Coordinator\"" },
+    { name: "Administrative Assistant", value: "site:linkedin.com/in/ \"Administrative Assistant\"" },
+    { name: "Receptionist / Front Desk", value: "site:linkedin.com/in/ Receptionist OR \"Front Desk\"" },
+    { name: "Training Manager / Coordinator", value: "site:linkedin.com/in/ \"Training Manager\" OR \"Training Coordinator\"" },
+    { name: "Internal Auditor", value: "site:linkedin.com/in/ \"Internal Auditor\"" },
+    { name: "Controller / Comptroller", value: "site:linkedin.com/in/ Controller OR Comptroller" },
+    { name: "Logistics Coordinator", value: "site:linkedin.com/in/ \"Logistics Coordinator\"" },
+    { name: "Communications Director", value: "site:linkedin.com/in/ \"Communications Director\"" },
+    { name: "Scrum Master / Agile Coach", value: "site:linkedin.com/in/ \"Scrum Master\" OR \"Agile Coach\"" },
+    { name: "DevOps Lead", value: "site:linkedin.com/in/ \"DevOps\" Lead OR Manager" },
+    { name: "Cloud Architect", value: "site:linkedin.com/in/ \"Cloud Architect\"" },
+    { name: "Technical Writer", value: "site:linkedin.com/in/ \"Technical Writer\"" },
+    { name: "Content Writer / Copywriter", value: "site:linkedin.com/in/ \"Content Writer\" OR Copywriter" },
+    { name: "Talent Acquisition Lead", value: "site:linkedin.com/in/ \"Talent Acquisition\" lead OR manager" },
+    { name: "EHS / Safety Manager", value: "site:linkedin.com/in/ \"EHS Manager\" OR \"Safety Manager\" OR \"Health and Safety\"" },
+
+    // ══════════════════════════════════════════════
+    // Self-Employed / Freelancer / Individual
+    // ══════════════════════════════════════════════
+
+    // ── Freelancers & Independent Professionals ──
+    { name: "Freelance Web Developer", value: "site:linkedin.com/in/ Freelance \"Web Developer\"" },
+    { name: "Freelance Software Developer", value: "site:linkedin.com/in/ Freelance \"Software Developer\" OR \"Software Engineer\"" },
+    { name: "Freelance Graphic Designer", value: "site:linkedin.com/in/ Freelance \"Graphic Designer\"" },
+    { name: "Freelance UX/UI Designer", value: "site:linkedin.com/in/ Freelance \"UX Designer\" OR \"UI Designer\"" },
+    { name: "Freelance Writer / Author", value: "site:linkedin.com/in/ Freelance Writer OR Author" },
+    { name: "Freelance Copywriter", value: "site:linkedin.com/in/ Freelance Copywriter" },
+    { name: "Freelance Editor / Proofreader", value: "site:linkedin.com/in/ Freelance Editor OR Proofreader" },
+    { name: "Freelance Photographer", value: "site:linkedin.com/in/ Freelance Photographer" },
+    { name: "Freelance Videographer", value: "site:linkedin.com/in/ Freelance Videographer OR \"Video Editor\"" },
+    { name: "Freelance Social Media Manager", value: "site:linkedin.com/in/ Freelance \"Social Media Manager\"" },
+    { name: "Freelance SEO Specialist", value: "site:linkedin.com/in/ Freelance \"SEO\" specialist OR consultant" },
+    { name: "Freelance Digital Marketing", value: "site:linkedin.com/in/ Freelance \"Digital Marketing\"" },
+    { name: "Freelance Data Scientist", value: "site:linkedin.com/in/ Freelance \"Data Scientist\" OR \"Data Analyst\"" },
+    { name: "Freelance Bookkeeper / Accountant", value: "site:linkedin.com/in/ Freelance Bookkeeper OR Accountant" },
+    { name: "Freelance Virtual Assistant", value: "site:linkedin.com/in/ Freelance \"Virtual Assistant\"" },
+    { name: "Freelance Translator / Interpreter", value: "site:linkedin.com/in/ Freelance Translator OR Interpreter" },
+    { name: "Freelance Illustrator", value: "site:linkedin.com/in/ Freelance Illustrator" },
+    { name: "Freelance Motion Designer", value: "site:linkedin.com/in/ Freelance \"Motion Designer\" OR \"Motion Graphics\"" },
+    { name: "Freelance Voice Actor", value: "site:linkedin.com/in/ Freelance \"Voice Actor\" OR \"Voice Over\"" },
+    { name: "Freelance Music Producer", value: "site:linkedin.com/in/ Freelance \"Music Producer\" OR \"Audio Engineer\"" },
+
+    // ── Consultants & Advisors ──
+    { name: "Independent Consultant", value: "site:linkedin.com/in/ \"Independent Consultant\"" },
+    { name: "Management Consultant (Independent)", value: "site:linkedin.com/in/ \"Management Consultant\" independent OR freelance OR self-employed" },
+    { name: "Strategy Consultant (Independent)", value: "site:linkedin.com/in/ \"Strategy Consultant\" independent OR freelance" },
+    { name: "IT Consultant (Independent)", value: "site:linkedin.com/in/ \"IT Consultant\" independent OR freelance" },
+    { name: "Marketing Consultant (Independent)", value: "site:linkedin.com/in/ \"Marketing Consultant\" independent OR freelance" },
+    { name: "Financial Advisor (Independent)", value: "site:linkedin.com/in/ \"Financial Advisor\" OR \"Financial Planner\" independent" },
+    { name: "Tax Consultant / CPA (Self-Employed)", value: "site:linkedin.com/in/ \"Tax Consultant\" OR CPA self-employed OR independent" },
+    { name: "HR Consultant (Independent)", value: "site:linkedin.com/in/ \"HR Consultant\" independent OR freelance" },
+    { name: "Business Coach / Mentor", value: "site:linkedin.com/in/ \"Business Coach\" OR \"Business Mentor\"" },
+    { name: "Executive Coach", value: "site:linkedin.com/in/ \"Executive Coach\"" },
+    { name: "Life Coach", value: "site:linkedin.com/in/ \"Life Coach\"" },
+    { name: "Career Coach / Counselor", value: "site:linkedin.com/in/ \"Career Coach\" OR \"Career Counselor\"" },
+    { name: "Startup Advisor / Mentor", value: "site:linkedin.com/in/ \"Startup Advisor\" OR \"Startup Mentor\"" },
+
+    // ── Solopreneurs & Small Business ──
+    { name: "Solopreneur / Solo Founder", value: "site:linkedin.com/in/ Solopreneur OR \"Solo Founder\"" },
+    { name: "Self-Employed Entrepreneur", value: "site:linkedin.com/in/ \"Self-Employed\" Entrepreneur" },
+    { name: "Small Business Owner", value: "site:linkedin.com/in/ \"Small Business Owner\"" },
+    { name: "Startup Founder (Solo)", value: "site:linkedin.com/in/ Founder \"Startup\" self-employed OR independent" },
+    { name: "E-Commerce Entrepreneur", value: "site:linkedin.com/in/ \"E-Commerce\" OR Ecommerce Entrepreneur OR Owner" },
+    { name: "Amazon / Etsy Seller", value: "site:linkedin.com/in/ Amazon OR Etsy Seller OR Owner" },
+    { name: "Dropshipping Business Owner", value: "site:linkedin.com/in/ Dropshipping Owner OR Entrepreneur" },
+
+    // ── Gig Workers & Contractors ──
+    { name: "Independent Contractor", value: "site:linkedin.com/in/ \"Independent Contractor\"" },
+    { name: "Contract Software Developer", value: "site:linkedin.com/in/ Contract \"Software Developer\" OR \"Software Engineer\"" },
+    { name: "Contract Project Manager", value: "site:linkedin.com/in/ Contract \"Project Manager\"" },
+    { name: "Contract Technical Writer", value: "site:linkedin.com/in/ Contract \"Technical Writer\"" },
+    { name: "Contract Designer", value: "site:linkedin.com/in/ Contract Designer" },
+    { name: "Gig Economy / On-Demand Worker", value: "site:linkedin.com/in/ \"Gig Economy\" OR \"On-Demand\"" },
+
+    // ── Creative & Personal Brand ──
+    { name: "Content Creator / Influencer", value: "site:linkedin.com/in/ \"Content Creator\" OR Influencer OR YouTuber" },
+    { name: "Podcaster / Podcast Host", value: "site:linkedin.com/in/ Podcaster OR \"Podcast Host\"" },
+    { name: "Blogger / Online Publisher", value: "site:linkedin.com/in/ Blogger OR \"Online Publisher\"" },
+    { name: "Online Course Creator", value: "site:linkedin.com/in/ \"Course Creator\" OR \"Online Instructor\"" },
+    { name: "Digital Nomad", value: "site:linkedin.com/in/ \"Digital Nomad\"" },
+    { name: "Public Speaker / Keynote Speaker", value: "site:linkedin.com/in/ \"Public Speaker\" OR \"Keynote Speaker\"" },
+    { name: "Author / Published Writer", value: "site:linkedin.com/in/ Author OR \"Published Writer\"" },
+
+    // ── Self-Employed Trades & Services ──
+    { name: "Self-Employed Realtor / Agent", value: "site:linkedin.com/in/ \"Real Estate Agent\" OR Realtor self-employed OR independent" },
+    { name: "Self-Employed Insurance Agent", value: "site:linkedin.com/in/ \"Insurance Agent\" self-employed OR independent" },
+    { name: "Self-Employed Attorney / Lawyer", value: "site:linkedin.com/in/ Attorney OR Lawyer \"solo practice\" OR self-employed OR independent" },
+    { name: "Self-Employed Dentist / Doctor", value: "site:linkedin.com/in/ Dentist OR Doctor OR Physician \"private practice\" OR self-employed" },
+    { name: "Self-Employed Therapist / Counselor", value: "site:linkedin.com/in/ Therapist OR Counselor \"private practice\" OR self-employed" },
+    { name: "Self-Employed Personal Trainer", value: "site:linkedin.com/in/ \"Personal Trainer\" OR \"Fitness Trainer\" self-employed OR independent" },
+    { name: "Self-Employed Tutor / Educator", value: "site:linkedin.com/in/ Tutor OR Educator self-employed OR independent" },
+    { name: "Self-Employed Handyman / Contractor", value: "site:linkedin.com/in/ Handyman OR Contractor self-employed OR independent" },
+    { name: "Self-Employed Chef / Caterer", value: "site:linkedin.com/in/ Chef OR Caterer self-employed OR independent" },
+    { name: "Self-Employed Event Planner", value: "site:linkedin.com/in/ \"Event Planner\" self-employed OR independent OR freelance" },
+    { name: "Self-Employed Interior Designer", value: "site:linkedin.com/in/ \"Interior Designer\" self-employed OR independent OR freelance" },
+
+    // ══════════════════════════════════════════════
+    // Office 365 / Microsoft 365 Email Discovery
+    // ══════════════════════════════════════════════
+
+    // ── Office 365 Business Email Footprints ──
+    { name: "O365: Business emails (onmicrosoft)", value: "\"@\" email \"onmicrosoft.com\" -\"@gmail.com\" -\"@yahoo.com\"" },
+    { name: "O365: Company contacts (outlook hosted)", value: "\"@\" email \"mail.protection.outlook.com\" -\"@outlook.com\" -\"@hotmail.com\"" },
+    { name: "O365: Business directory emails", value: "\"@\" email \"contact\" OR \"directory\" -\"@gmail.com\" -\"@yahoo.com\" -\"@outlook.com\" -\"@hotmail.com\"" },
+    { name: "O365: CEO contact (business domain)", value: "CEO \"@\" email -\"@gmail.com\" -\"@yahoo.com\" -\"@outlook.com\" -\"@hotmail.com\" -\"@aol.com\"" },
+    { name: "O365: Staff directory (business domain)", value: "\"staff directory\" OR \"our team\" OR \"leadership\" \"@\" email -\"@gmail.com\" -\"@yahoo.com\" -\"@outlook.com\"" },
+    { name: "O365: Company info page emails", value: "\"info@\" OR \"contact@\" OR \"sales@\" -\"@gmail.com\" -\"@yahoo.com\" -\"@outlook.com\" -\"@hotmail.com\"" },
+
+    // ── Google Workspace Email Footprints ──
+    { name: "GWS: Business emails (Google-hosted)", value: "\"@\" email -\"@gmail.com\" -\"@yahoo.com\" -\"@hotmail.com\" \"Google Workspace\" OR \"G Suite\"" },
+    { name: "GWS: Company domain contacts", value: "\"@\" email \"contact us\" -\"@gmail.com\" -\"@yahoo.com\" -\"@outlook.com\" -\"@hotmail.com\" -\"@aol.com\"" },
+
     // ══════════════════════════════════════════════
     // ISP Email Domain Footprints
     // ══════════════════════════════════════════════

@@ -165,11 +165,36 @@ function _deepFetchPage(url, pattern, removeDuplicates) {
         return response.text();
     })
     .then(function(html) {
+        // Extract emails from mailto: links before stripping HTML tags
+        var mailtoEmails = [];
+        var mailtoRe = /mailto:([a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9.-]+\.[a-z]{2,})/gi;
+        var mailtoMatch;
+        while ((mailtoMatch = mailtoRe.exec(html)) !== null) {
+            mailtoEmails.push(mailtoMatch[1]);
+        }
+
+        // Extract emails from JSON-LD structured data
+        var jsonldRe = /<script[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/\s*script[^>]*>/gi;
+        var jsonldMatch;
+        while ((jsonldMatch = jsonldRe.exec(html)) !== null) {
+            var jsonText = jsonldMatch[1];
+            var jsonEmails = jsonText.match(_DEEP_EMAIL_REGEXP) || [];
+            mailtoEmails = mailtoEmails.concat(jsonEmails);
+        }
+
+        // Extract emails from meta tags (og:email, contact, etc.)
+        var metaRe = /<meta[^>]*content\s*=\s*["']([^"']*@[^"']*)["'][^>]*>/gi;
+        var metaMatch;
+        while ((metaMatch = metaRe.exec(html)) !== null) {
+            var metaEmails = metaMatch[1].match(_DEEP_EMAIL_REGEXP) || [];
+            mailtoEmails = mailtoEmails.concat(metaEmails);
+        }
+
         var text = html.replace(/<script\b[^>]*>[\s\S]*?<\/\s*script[^>]*>/gi, ' ')
                        .replace(/<style\b[^>]*>[\s\S]*?<\/\s*style[^>]*>/gi, ' ')
                        .replace(/<[^>]+>/g, ' ');
 
-        var rawEmails = text.match(_DEEP_EMAIL_REGEXP) || [];
+        var rawEmails = (text.match(_DEEP_EMAIL_REGEXP) || []).concat(mailtoEmails);
         var addedNew = false;
 
         rawEmails.forEach(function(email) {

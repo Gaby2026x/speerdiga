@@ -19,14 +19,20 @@ var _emailTypePresets = {
     "isp-windstream": "@windstream.net",
     "biz-all": "",
     "biz-edu": "",
-    "biz-gov": ""
+    "biz-gov": "",
+    "biz-o365": "",
+    "biz-gws": "",
+    "biz-custom-domain": ""
 };
 
 // Business presets auto-set the site footprint for effective B2B lead generation
 var _bizFootprints = {
     "biz-all": "\"@\" -\"@gmail.com\" -\"@yahoo.com\" -\"@outlook.com\" -\"@hotmail.com\" -\"@aol.com\" -\"@icloud.com\"",
     "biz-edu": "\"@\" email university OR college OR school OR \".edu\"",
-    "biz-gov": "\"@\" email government OR \".gov\""
+    "biz-gov": "\"@\" email government OR \".gov\"",
+    "biz-o365": "\"@\" email -\"@gmail.com\" -\"@yahoo.com\" -\"@outlook.com\" -\"@hotmail.com\" -\"@aol.com\" -\"@icloud.com\" -\"@protonmail.com\" \"onmicrosoft.com\" OR \"mail.protection.outlook.com\" OR \"contact\" OR \"info@\" OR \"sales@\"",
+    "biz-gws": "\"@\" email -\"@gmail.com\" -\"@yahoo.com\" -\"@outlook.com\" -\"@hotmail.com\" -\"@aol.com\" -\"@icloud.com\" \"Google Workspace\" OR \"G Suite\" OR \"contact\" OR \"info@\" OR \"sales@\"",
+    "biz-custom-domain": "\"@\" email -\"@gmail.com\" -\"@yahoo.com\" -\"@outlook.com\" -\"@hotmail.com\" -\"@aol.com\" -\"@icloud.com\" -\"@protonmail.com\" -\"@mail.com\" -\"@gmx.com\" -\"@zoho.com\" \"contact\" OR \"about\" OR \"team\""
 };
 
 _onInit(function () {
