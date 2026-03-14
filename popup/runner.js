@@ -45,18 +45,17 @@ function hideStoppedStatus() {
     $('#progress-running').show();
 }
 
-function updateButtons() {
-    var current = chrome.extension.getBackgroundPage().serpdigger.runner.current;
-    if(current.running) {
+function updateButtonsFromState(state) {
+    if(state.running) {
         $('#toggle').text('STOP').data('status', 'stop');
         $('#download').attr('disabled', true);
     } else {
-        if(current.complete) {
+        if(state.complete) {
             $('#toggle').text('START').data('status', 'start');
             $('#download').attr('disabled', false);
         } else {
             $('#toggle').text('START').data('status', 'start');
-            if (current.emailsFound.length > 0) {
+            if (state.emailCount > 0) {
                 $('#download').attr('disabled', false);
             } else {
                 $('#download').attr('disabled', true);
@@ -67,52 +66,53 @@ function updateButtons() {
 
 _onInit(function () {
     
-    var runner = chrome.extension.getBackgroundPage().serpdigger.runner.current;
-    updateNumberOfEmailsFound(runner.emailsFound.length);
+    _sendEvent('state:get', {}, function (state) {
+        updateNumberOfEmailsFound(state.emailCount);
 
-    var currentQuery = runner.allQueries.length > 0 ? runner.currentQuery + 1 : 0;
+        var currentQuery = state.totalQueries > 0 ? state.currentQuery + 1 : 0;
 
-    updateCurrentQueryNumber(currentQuery);
-    updateTotalNumberOfQueries(runner.allQueries.length);
-    
-    if(runner.running) {
-        showCurrentQueryString();
-        updateCurrentQueryString(runner.allQueries[runner.currentQuery]);
-    } else {
-        hideCurrentQueryString();
-    }
-    
-    
-    runner.complete ? showCompleteStatus() : hideCompleteStatus();
-    
-    log.i('before runner : ', $('#delayInput').val(), chrome.extension.getBackgroundPage().serpdigger.runner.current.delay);
+        updateCurrentQueryNumber(currentQuery);
+        updateTotalNumberOfQueries(state.totalQueries);
+        
+        if(state.running) {
+            showCurrentQueryString();
+            updateCurrentQueryString(state.queryString);
+        } else {
+            hideCurrentQueryString();
+        }
+        
+        state.complete ? showCompleteStatus() : hideCompleteStatus();
+        
+        updateButtonsFromState(state);
+    });
     
     $('#delayInput').on('change keyup input', function () {
-        chrome.extension.getBackgroundPage().serpdigger.runner.current.delay = (parseInt($(this).val(), 10)*1000) ? (parseInt($(this).val(), 10)*1000) : 0;
+        var delay = (parseInt($(this).val(), 10)*1000) ? (parseInt($(this).val(), 10)*1000) : 0;
+        _sendEvent('state:setDelay', {delay: delay});
     });
     
     $('#removeDuplicates').change(function () {
-        chrome.extension.getBackgroundPage().serpdigger.runner.current.removeDuplicates = this.checked;
+        _sendEvent('state:setRemoveDuplicates', {value: this.checked});
     });
-        
-    log.i('after runner : ', $('#delayInput').val(), chrome.extension.getBackgroundPage().serpdigger.runner.current.delay);
     
-    updateButtons();
+    $('#deepScan').change(function () {
+        _sendEvent('state:setDeepScan', {value: this.checked});
+    });
     
     $('#toggle').click(function () {
         log.i('start:', $(this).data('status'));
         if($(this).data('status') === 'stop') {
             showStoppedStatus();
-            chrome.extension.getBackgroundPage().serpdigger.stop();
+            _sendEvent('state:stop', {});
             $('#download').attr('disabled', false);
         }  else {
             hideStoppedStatus();
-            chrome.extension.getBackgroundPage().serpdigger.run(getQueries());
+            _sendEvent('state:start', {queries: getQueries()});
         }
     });
     
     $('#download').click(function () {
-        chrome.extension.getBackgroundPage().serpdigger.download();
+        _sendEvent('state:download', {});
     });
     
 });

@@ -43,6 +43,24 @@ function storeRemoveDuplicates(removeDuplicates) {
     });
 }
 
+function storeDeepScan(val) {
+    chrome.storage.local.set({
+        deepScan: val
+    });
+}
+
+function storeMaxPages(val) {
+    chrome.storage.local.set({
+        maxPagesPerQuery: val
+    });
+}
+
+function storeSearchEngine(val) {
+    chrome.storage.local.set({
+        searchEngine: val
+    });
+}
+
 function storeLocationExactMatch(exactMatch) {
     chrome.storage.local.set({
         locationExactMatch: exactMatch
@@ -63,10 +81,10 @@ function restoreDelay() {
         if(((items.delay === undefined) || (items.delay === null))) {
             $('#delayInput').val(10);
             $('#delayInput').change();
-            chrome.extension.getBackgroundPage().serpdigger.runner.current.delay = 10000;
+            _sendEvent('state:setDelay', {delay: 10000});
         } else {
             $('#delayInput').val(items.delay);
-            chrome.extension.getBackgroundPage().serpdigger.runner.current.delay = items.delay*1000;
+            _sendEvent('state:setDelay', {delay: items.delay * 1000});
         }
     });
 }
@@ -100,6 +118,42 @@ function restoreTerm2ExactMatch() {
             $('#term2-exact-match-checkbox').get(0).checked = true;
         } else {
             $('#term2-exact-match-checkbox').get(0).checked = items.term2ExactMatch;   
+        }
+    });
+}
+
+function restoreDeepScan() {
+    chrome.storage.local.get('deepScan', function (items) {
+        if (items.deepScan === null || items.deepScan === undefined) {
+            storeDeepScan(true);
+            $('#deepScan').get(0).checked = true;
+        } else {
+            $('#deepScan').get(0).checked = items.deepScan;
+        }
+    });
+}
+
+function restoreMaxPages() {
+    chrome.storage.local.get('maxPagesPerQuery', function (items) {
+        if (items.maxPagesPerQuery === null || items.maxPagesPerQuery === undefined) {
+            $('#maxPagesInput').val(10);
+            storeMaxPages(10);
+            _sendEvent('state:setMaxPages', {value: 10});
+        } else {
+            $('#maxPagesInput').val(items.maxPagesPerQuery);
+            _sendEvent('state:setMaxPages', {value: items.maxPagesPerQuery});
+        }
+    });
+}
+
+function restoreSearchEngine() {
+    chrome.storage.local.get('searchEngine', function (items) {
+        var val = items.searchEngine || 'cse';
+        $('#search-engine-select').val(val);
+        if (val === 'cse') {
+            $('#cse-row').show();
+        } else {
+            $('#cse-row').hide();
         }
     });
 }
@@ -148,11 +202,20 @@ function cartesian() {
     return r;
 }
 
-function buildQueries(footprints, patterns, location, cse) {
+/**
+ * Build all query combinations as a cartesian product of the input arrays.
+ * @param {string[]} footprints - Site footprint terms
+ * @param {string[]} patterns - Email @ pattern terms (e.g. "@gmail.com")
+ * @param {string[]} location - Location filter terms
+ * @param {string[]} secondTerms - Additional secondary search terms
+ * @returns {Array[]} Array of query arrays, one per combination
+ */
+function buildQueries(footprints, patterns, location, secondTerms) {
     return cartesian(
         (footprints.length ? footprints : [null]),
         (patterns.length ? patterns : [null]),
-        (location.length ? location : [null])
+        (location.length ? location : [null]),
+        (secondTerms.length ? secondTerms : [null])
     );
 }
 
@@ -173,14 +236,17 @@ function modifyExactMatch(exactMatch, str) {
 var EMAIL_PATTERN_CHECK = /^(?:[\s]+)?@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:[\s]+)?$/;
 
 function getQueries() {
+    var locationExactMatch = $('#location-exact-match-checkbox').get(0).checked;
+    var term2ExactMatch = $('#term2-exact-match-checkbox').get(0).checked;
+
     var queries = buildQueries(
         $('#footprint-input').val().split(/[\n]+/g).filter(function (s) {return s.trim().length}),
 
         $('#pattern-input').val().split(/[\n]+/g).filter(function (p) {return EMAIL_PATTERN_CHECK.test(p)}).map(function (e) {return '"'+e+'"'}).map(modifyExactMatch.bind(void 0, true)),
 
-        $('#location-input').val().split(/[\n]+/g).filter(function (s) {return s.trim().length}),
+        $('#location-input').val().split(/[\n]+/g).filter(function (s) {return s.trim().length}).map(modifyExactMatch.bind(void 0, locationExactMatch)),
 
-        $('#cse-address-input').val().split(/[\n]+/g).filter(function (s) {return s.trim().length})
+        $('#term2-input').val().split(/[\n]+/g).filter(function (s) {return s.trim().length}).map(modifyExactMatch.bind(void 0, term2ExactMatch))
     ).filter(function (query) {
         log.i('filter', query);
         return query.filter(function (s) {return s && s.trim().length}).length;
@@ -229,6 +295,28 @@ _onInit(function () {
     $('#removeDuplicates').on('click', function () {
         storeRemoveDuplicates(this.checked);
     });
+
+    $('#deepScan').on('click', function () {
+        storeDeepScan(this.checked);
+    });
+
+    $('#maxPagesInput').on('input change keyup', function () {
+        var val = parseInt($(this).val(), 10);
+        if (!val || val < 1) val = 1;
+        if (val > 50) val = 50;
+        storeMaxPages(val);
+        _sendEvent('state:setMaxPages', {value: val});
+    });
+
+    $('#search-engine-select').on('change', function () {
+        var val = $(this).val();
+        storeSearchEngine(val);
+        if (val === 'cse') {
+            $('#cse-row').show();
+        } else {
+            $('#cse-row').hide();
+        }
+    });
     
     $('#location-exact-match-checkbox').on('click', function () {
         storeLocationExactMatch(this.checked);
@@ -245,8 +333,11 @@ _onInit(function () {
     restoreSecondTermsFromStorage();
     restoreDelay();
     restoreRemoveDuplicates();
-    // restoreLocationExactMatch();
-    // restoreTerm2ExactMatch();
+    restoreLocationExactMatch();
+    restoreTerm2ExactMatch();
+    restoreDeepScan();
+    restoreSearchEngine();
+    restoreMaxPages();
     
     log.i('after query : ', $('#delayInput').val());
     

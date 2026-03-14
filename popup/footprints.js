@@ -7,8 +7,10 @@ function updateFootprintSelect() {
         }).forEach(function ($o) {
             $('#footprint-select').append($o);
         });
-        if(footprints.indexOf($('#footprint-input').val()) !== -1) {
-            $('#footprint-select').val($('#footprint-input').val());
+        var currentVal = $('#footprint-input').val();
+        var matchingFootprint = footprints.some(function (f) { return f.value === currentVal; });
+        if(matchingFootprint) {
+            $('#footprint-select').val(currentVal);
         } else {
             $('#footprint-select').val("custom");
         }

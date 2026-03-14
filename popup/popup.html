@@ -10,6 +10,7 @@
         <script src="popup.js"></script>
         <script src="login.js"></script>
         <script src="footprints.js"></script>
+        <script src="email-filter.js"></script>
         <script src="query.js"></script>
         <script src="runner.js"></script>
         <style>
@@ -34,8 +35,29 @@
                     <span class="text-info">By: </span>
                     <a href="http://www.serpdigger.com/yossi" target="_blank">Yossi Bezalel</a>
                 </div>
+                <div class="col-sm-3 text-center" style="padding: 10px 0;">
+                    <span id="checking-account" style="display: none;" class="text-warning">Checking account...</span>
+                    <span class="activated" style="display: none; color: green;">&#10003; Activated</span>
+                    <span class="trial" style="display: none; color: orange;">Trial Account</span>
+                </div>
             </div>
             <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="search-engine-select" style="line-height: 32px;">Search Engine</label>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <select class="form-control" id="search-engine-select">
+                            <option value="cse" selected>Google CSE (Custom Search)</option>
+                            <option value="google">Google Web Search</option>
+                            <option value="bing">Bing Search</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="cse-row">
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="cse-address-input" style="line-height: 32px;">Insert Your CSE Main Address</label>
@@ -51,12 +73,48 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="footprints-input">Site footprint</label>
+                        <select class="form-control" id="footprint-select" style="margin-bottom: 5px;">
+                            <option value="custom">Custom</option>
+                        </select>
                         <textarea style="resize: none;" rows="3" class="form-control" id="footprint-input"></textarea>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="pattern-input">@ Patterns</label>
+                        <select class="form-control" id="email-type-select" style="margin-bottom: 5px;">
+                            <option value="custom">Custom</option>
+                            <optgroup label="── ISP / Webmail ──">
+                                <option value="isp-all">All ISP / Webmail</option>
+                                <option value="isp-gmail">Gmail</option>
+                                <option value="isp-yahoo">Yahoo</option>
+                                <option value="isp-outlook">Outlook</option>
+                                <option value="isp-hotmail">Hotmail</option>
+                                <option value="isp-aol">AOL</option>
+                                <option value="isp-icloud">iCloud</option>
+                                <option value="isp-protonmail">ProtonMail</option>
+                            </optgroup>
+                            <optgroup label="── US ISP ──">
+                                <option value="isp-comcast">Comcast / Xfinity</option>
+                                <option value="isp-bellsouth">BellSouth</option>
+                                <option value="isp-att">AT&amp;T</option>
+                                <option value="isp-verizon">Verizon</option>
+                                <option value="isp-cox">Cox</option>
+                                <option value="isp-spectrum">Charter / Spectrum</option>
+                                <option value="isp-centurylink">CenturyLink</option>
+                                <option value="isp-frontier">Frontier</option>
+                                <option value="isp-earthlink">EarthLink</option>
+                                <option value="isp-windstream">Windstream</option>
+                            </optgroup>
+                            <optgroup label="── Business Emails ──">
+                                <option value="biz-all">Business (exclude ISP)</option>
+                                <option value="biz-o365">Office 365 / Microsoft 365</option>
+                                <option value="biz-gws">Google Workspace</option>
+                                <option value="biz-custom-domain">Custom Domain (all B2B)</option>
+                                <option value="biz-edu">Education (.edu)</option>
+                                <option value="biz-gov">Government (.gov)</option>
+                            </optgroup>
+                        </select>
                         <textarea style="resize: none;" class="form-control" rows="3" id="pattern-input"></textarea>
                     </div>
                 </div>
@@ -64,6 +122,26 @@
                     <div class="form-group">
                         <label for="location-input">Location</label>
                         <textarea style="resize: none;" class="form-control" rows="3" id="location-input"></textarea>
+                        <div class="checkbox" style="margin-top: 5px;">
+                            <label>
+                                <input type="checkbox" checked id="location-exact-match-checkbox">
+                                <small>Exact match</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="term2-input">Secondary Terms</label>
+                        <textarea style="resize: none;" class="form-control" rows="2" id="term2-input"></textarea>
+                        <div class="checkbox" style="margin-top: 5px;">
+                            <label>
+                                <input type="checkbox" checked id="term2-exact-match-checkbox">
+                                <small>Exact match</small>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,12 +188,24 @@
                                     <input type="number" min="0" max="99" class="form-control" id="delayInput">
                                 </div>
                             </div>
+                            <div class="form-group" style="margin-top: 10px;">
+                                <label for="maxPagesInput" style="padding-top: 5px;" class="col-sm-8 control-label">Pages per query (1-50)</label>
+                                <div class="col-sm-4">
+                                    <input type="number" min="1" max="50" class="form-control" id="maxPagesInput" value="10">
+                                </div>
+                            </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="checkbox" style="margin-bottom: -5px;">
                                 <label>
                                     <input type="checkbox" checked id="removeDuplicates">
                                     <b>Remove duplicates</b>
+                                </label>
+                            </div>
+                            <div class="checkbox" style="margin-bottom: -5px;">
+                                <label>
+                                    <input type="checkbox" checked id="deepScan">
+                                    <b>Deep Scan pages</b>
                                 </label>
                             </div>
                         </div>

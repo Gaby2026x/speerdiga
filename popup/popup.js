@@ -11,12 +11,32 @@ function _onInit(callback) {
 function init() {
     console.log('init');
     
-    $.getJSON('../manifest.json', function(manifest) {
-        $('#version').html(manifest.version);
-    });
+    var manifest = chrome.runtime.getManifest();
+    $('#version').html(manifest.version);
+
     initCallbacks.forEach(function (c) {
         c();
     });
 };
+
+chrome.runtime.onMessage.addListener(function (request) {
+    if (request.eventName === 'popup:emailCount') {
+        updateNumberOfEmailsFound(request.count);
+    } else if (request.eventName === 'popup:progress') {
+        updateTotalNumberOfQueries(request.totalQueries);
+        updateCurrentQueryNumber(request.currentQuery);
+        updateCurrentQueryString(request.queryString);
+    } else if (request.eventName === 'popup:complete') {
+        hideCurrentQueryString();
+        showCompleteStatus();
+        updateButtonsFromState(request.state);
+    } else if (request.eventName === 'popup:started') {
+        showCurrentQueryString();
+        hideCompleteStatus();
+        updateButtonsFromState(request.state);
+    } else if (request.eventName === 'popup:buttons') {
+        updateButtonsFromState(request.state);
+    }
+});
 
 $(init);

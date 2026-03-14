@@ -51,7 +51,45 @@ Runner.prototype.start = function (originalCallback) {
             return;
         }
 
-        var isNoResults = $('.gsc-result .gs-no-results-result').size() > 0;
+        // Non-CSE pages: extract then navigate to next page of results
+        if ($('.gsc-result').length === 0 && $('.gsc-webResult').length === 0) {
+            log.i('Runner/start/nextPage/non-CSE page');
+            _runner._update();
+
+            var pagesScanned = runner.options.pagesScanned || 1;
+            var maxPages = runner.options.maxPages || 10;
+
+            if (pagesScanned < maxPages) {
+                var $nextLink = null;
+
+                // Google Web Search: "Next" pagination link
+                if ($('#pnnext').length > 0) {
+                    $nextLink = $('#pnnext');
+                } else if ($('a[aria-label="Next"]').length > 0) {
+                    $nextLink = $('a[aria-label="Next"]');
+                }
+                // Bing: next page link
+                else if ($('a.sb_pagN').length > 0) {
+                    $nextLink = $('a.sb_pagN');
+                } else if ($('.sb_pagN_bp').length > 0) {
+                    $nextLink = $('.sb_pagN_bp');
+                }
+
+                if ($nextLink && $nextLink.length > 0) {
+                    log.i('Runner/start/nextPage/non-CSE navigating to page', pagesScanned + 1);
+                    setTimeout(function() {
+                        $nextLink[0].click();
+                    }, 1500);
+                    return;
+                }
+            }
+
+            log.i('Runner/start/nextPage/non-CSE finish (no more pages or limit reached)');
+            _runner._finish();
+            return;
+        }
+
+        var isNoResults = $('.gsc-result .gs-no-results-result').length > 0;
 
         if(isNoResults) {
             log.i('Runner/start/nextPage/Finished');
@@ -146,23 +184,83 @@ Runner.prototype.stop = function () {
 Runner.prototype.extract = function () {
     var _runner = this;
     log.i('Runner/extract', runner);
-    
-    $('.gsc-result').each(function () {
-        var $this = $(this);
-        var emails = ($this.find('.gs-snippet').text().match(EMAIL_REGEXP) || []);
-        emails.forEach(function (email) {
-            var emailObject = runner.options.queryObject[1].replace(/"/g, '');
-            var emailParsed = email.toLowerCase().replace(/\s{1,}/gi, '');
-            var emailResult = emailParsed.split(emailObject);
-            
-            if (emailResult[0].search('@') > -1) { return }
-            
-            emailResult = emailResult[0] + emailObject;
 
-            if(!runner.options.removeDuplicates || (runner.emails.indexOf(email) === -1)) {
-                runner.emails.push(emailResult);
+    var resultUrls = [];
+    var isCSE = $('.gsc-result').length > 0;
+
+    if (isCSE) {
+        // Google CSE: extract from full result text (not just snippet)
+        $('.gsc-result').each(function () {
+            var $this = $(this);
+            var allText = $this.text();
+            var emails = (allText.match(EMAIL_REGEXP) || []);
+            _runner._collectEmails(emails);
+
+            // Collect result link URLs for deep page scanning
+            $this.find('a.gs-title, a[data-ctorig]').each(function() {
+                var href = $(this).data('ctorig') || $(this).attr('href');
+                if (href && href.indexOf('http') === 0 && resultUrls.indexOf(href) === -1) {
+                    resultUrls.push(href);
+                }
+            });
+        });
+    } else {
+        // Google / Bing / generic page: extract from result containers or body
+        var $containers;
+        if ($('#search .g').length > 0) {
+            $containers = $('#search .g');
+        } else if ($('#b_results .b_algo').length > 0) {
+            $containers = $('#b_results .b_algo');
+        } else {
+            $containers = $('body');
+        }
+
+        $containers.each(function () {
+            var $el = $(this);
+            var emails = ($el.text().match(EMAIL_REGEXP) || []);
+            _runner._collectEmails(emails);
+
+            $el.find('a[href^="http"]').each(function() {
+                var href = $(this).attr('href');
+                if (href && resultUrls.indexOf(href) === -1) resultUrls.push(href);
+            });
+        });
+        resultUrls = resultUrls.slice(0, 30);
+    }
+
+    // Send result URLs for deep scanning in background
+    if (resultUrls.length > 0 && runner.options.deepScan !== false) {
+        chrome.runtime.sendMessage({
+            eventName: 'runner:deepScan',
+            eventData: {
+                urls: resultUrls,
+                pattern: runner.options.queryObject ? runner.options.queryObject[1] : null,
+                removeDuplicates: runner.options.removeDuplicates
             }
         });
+    }
+};
+
+Runner.prototype._collectEmails = function(emails) {
+    emails.forEach(function (email) {
+        var emailParsed = email.toLowerCase().replace(/\s{1,}/gi, '');
+
+        if (!runner.options.queryObject || !runner.options.queryObject[1]) {
+            if(!runner.options.removeDuplicates || (runner.emails.indexOf(emailParsed) === -1)) {
+                runner.emails.push(emailParsed);
+            }
+            return;
+        }
+        var emailObject = runner.options.queryObject[1].replace(/"/g, '');
+        var emailResult = emailParsed.split(emailObject);
+
+        if (emailResult[0].search('@') > -1) { return }
+
+        emailResult = emailResult[0] + emailObject;
+
+        if(!runner.options.removeDuplicates || (runner.emails.indexOf(emailResult) === -1)) {
+            runner.emails.push(emailResult);
+        }
     });
 };
 
