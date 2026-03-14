@@ -151,12 +151,16 @@ Runner.prototype.extract = function () {
         var $this = $(this);
         var emails = ($this.find('.gs-snippet').text().match(EMAIL_REGEXP) || []);
         emails.forEach(function (email) {
+            var emailParsed = email.toLowerCase().replace(/\s{1,}/gi, '');
+
             if (!runner.options.queryObject || !runner.options.queryObject[1]) {
-                log.w('Runner/extract', 'skipping email - email pattern not found in query');
+                // No specific pattern — collect all valid emails (business / B2B mode)
+                if(!runner.options.removeDuplicates || (runner.emails.indexOf(emailParsed) === -1)) {
+                    runner.emails.push(emailParsed);
+                }
                 return;
             }
             var emailObject = runner.options.queryObject[1].replace(/"/g, '');
-            var emailParsed = email.toLowerCase().replace(/\s{1,}/gi, '');
             var emailResult = emailParsed.split(emailObject);
             
             if (emailResult[0].search('@') > -1) { return }

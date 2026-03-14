@@ -1,5 +1,5 @@
 var serpdigger = {
-    paid: false,
+    paid: true,
     config: {
         api: {
             httpuser: "snoaAlleaxg",

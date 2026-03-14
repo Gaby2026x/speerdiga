@@ -17,9 +17,16 @@ var _emailTypePresets = {
     "isp-frontier": "@frontier.com\n@frontiernet.net",
     "isp-earthlink": "@earthlink.net",
     "isp-windstream": "@windstream.net",
-    "biz-all": "@company.com",
-    "biz-edu": "@edu",
-    "biz-gov": "@gov"
+    "biz-all": "",
+    "biz-edu": "",
+    "biz-gov": ""
+};
+
+// Business presets auto-set the site footprint for effective B2B lead generation
+var _bizFootprints = {
+    "biz-all": "\"@\" -\"@gmail.com\" -\"@yahoo.com\" -\"@outlook.com\" -\"@hotmail.com\" -\"@aol.com\" -\"@icloud.com\"",
+    "biz-edu": "\"@\" email university OR college OR school OR \".edu\"",
+    "biz-gov": "\"@\" email government OR \".gov\""
 };
 
 _onInit(function () {
@@ -28,9 +35,15 @@ _onInit(function () {
         var val = $(this).val();
         if (val === 'custom') {
             $('#pattern-input').val('').attr('disabled', false);
-        } else if (_emailTypePresets[val]) {
+        } else if (_emailTypePresets.hasOwnProperty(val)) {
             $('#pattern-input').val(_emailTypePresets[val]).attr('disabled', false);
             storePatterns(_emailTypePresets[val]);
+            // Business presets: also set the site footprint for B2B results
+            if (_bizFootprints.hasOwnProperty(val)) {
+                $('#footprint-input').val(_bizFootprints[val]).attr('disabled', false);
+                storeFootprints(_bizFootprints[val]);
+                $('#footprint-select').val('custom');
+            }
         }
     });
 
