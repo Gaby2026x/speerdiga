@@ -51,10 +51,40 @@ Runner.prototype.start = function (originalCallback) {
             return;
         }
 
-        // Non-CSE pages: no AJAX pagination, extract once and finish
+        // Non-CSE pages: extract then navigate to next page of results
         if ($('.gsc-result').length === 0 && $('.gsc-webResult').length === 0) {
-            log.i('Runner/start/nextPage/non-CSE finish');
+            log.i('Runner/start/nextPage/non-CSE page');
             _runner._update();
+
+            var pagesScanned = runner.options.pagesScanned || 1;
+            var maxPages = runner.options.maxPages || 10;
+
+            if (pagesScanned < maxPages) {
+                var $nextLink = null;
+
+                // Google Web Search: "Next" pagination link
+                if ($('#pnnext').length > 0) {
+                    $nextLink = $('#pnnext');
+                } else if ($('a[aria-label="Next"]').length > 0) {
+                    $nextLink = $('a[aria-label="Next"]');
+                }
+                // Bing: next page link
+                else if ($('a.sb_pagN').length > 0) {
+                    $nextLink = $('a.sb_pagN');
+                } else if ($('.sb_pagN_bp').length > 0) {
+                    $nextLink = $('.sb_pagN_bp');
+                }
+
+                if ($nextLink && $nextLink.length > 0) {
+                    log.i('Runner/start/nextPage/non-CSE navigating to page', pagesScanned + 1);
+                    setTimeout(function() {
+                        $nextLink[0].click();
+                    }, 1500);
+                    return;
+                }
+            }
+
+            log.i('Runner/start/nextPage/non-CSE finish (no more pages or limit reached)');
             _runner._finish();
             return;
         }

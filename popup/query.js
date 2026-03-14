@@ -49,6 +49,12 @@ function storeDeepScan(val) {
     });
 }
 
+function storeMaxPages(val) {
+    chrome.storage.local.set({
+        maxPagesPerQuery: val
+    });
+}
+
 function storeSearchEngine(val) {
     chrome.storage.local.set({
         searchEngine: val
@@ -123,6 +129,19 @@ function restoreDeepScan() {
             $('#deepScan').get(0).checked = true;
         } else {
             $('#deepScan').get(0).checked = items.deepScan;
+        }
+    });
+}
+
+function restoreMaxPages() {
+    chrome.storage.local.get('maxPagesPerQuery', function (items) {
+        if (items.maxPagesPerQuery === null || items.maxPagesPerQuery === undefined) {
+            $('#maxPagesInput').val(10);
+            storeMaxPages(10);
+            _sendEvent('state:setMaxPages', {value: 10});
+        } else {
+            $('#maxPagesInput').val(items.maxPagesPerQuery);
+            _sendEvent('state:setMaxPages', {value: items.maxPagesPerQuery});
         }
     });
 }
@@ -281,6 +300,14 @@ _onInit(function () {
         storeDeepScan(this.checked);
     });
 
+    $('#maxPagesInput').on('input change keyup', function () {
+        var val = parseInt($(this).val(), 10);
+        if (!val || val < 1) val = 1;
+        if (val > 50) val = 50;
+        storeMaxPages(val);
+        _sendEvent('state:setMaxPages', {value: val});
+    });
+
     $('#search-engine-select').on('change', function () {
         var val = $(this).val();
         storeSearchEngine(val);
@@ -310,6 +337,7 @@ _onInit(function () {
     restoreTerm2ExactMatch();
     restoreDeepScan();
     restoreSearchEngine();
+    restoreMaxPages();
     
     log.i('after query : ', $('#delayInput').val());
     

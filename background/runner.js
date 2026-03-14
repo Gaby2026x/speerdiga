@@ -13,7 +13,9 @@ serpdigger.runner = {
         removeDuplicates: true,
         deepScan: true,
         fetchedUrls: [],
-        delay: 5000
+        delay: 5000,
+        pagesForCurrentQuery: 0,
+        maxPagesPerQuery: 10
     } 
 };
 
@@ -47,6 +49,12 @@ chrome.storage.local.get('deepScan', function (items) {
     }
 })
 
+chrome.storage.local.get('maxPagesPerQuery', function (items) {
+    if (items.maxPagesPerQuery !== undefined && items.maxPagesPerQuery !== null) {
+        serpdigger.runner.current.maxPagesPerQuery = items.maxPagesPerQuery;
+    }
+})
+
 chrome.runtime.onMessage.addListener(
     function (request, sender) {
         log.i('runtime.onMessage', request.eventName, sender);
@@ -59,6 +67,7 @@ chrome.runtime.onMessage.addListener(
             
             _notifyPopup('popup:emailCount', {count: serpdigger.runner.current.emailsFound.length});
         } else if (request.eventName === 'runner:finish') {
+            serpdigger.runner.current.pagesForCurrentQuery = 0;
             var delay = (0.5 + Math.random()) * serpdigger.runner.current.delay;
             
             log.w('runtime.onMessage', serpdigger.runner.current.currentQuery);
@@ -99,6 +108,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 
     if (tab.status === 'complete') {
         var current = serpdigger.runner.current;
+        current.pagesForCurrentQuery++;
         chrome.tabs.sendMessage(tabId, {
             eventName: 'run',
             eventData: {
@@ -109,7 +119,9 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                 totalQueries: current.allQueries.length,
                 queryString: current.allQueries[current.currentQuery],
                 queryObject: current.queries[current.currentQuery],
-                deepScan: current.deepScan
+                deepScan: current.deepScan,
+                pagesScanned: current.pagesForCurrentQuery,
+                maxPages: current.maxPagesPerQuery
             }
         });
 
@@ -300,6 +312,7 @@ serpdigger.run = function (queries) {
     serpdigger.runner.current.queries = queries.obj;
     serpdigger.runner.current.emailsFound = [];
     serpdigger.runner.current.fetchedUrls = [];
+    serpdigger.runner.current.pagesForCurrentQuery = 0;
 
     _notifyPopup('popup:emailCount', {count: 0});
     _notifyPopup('popup:progress', {

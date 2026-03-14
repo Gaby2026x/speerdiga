@@ -73,3 +73,8 @@ _addListener("state:setDeepScan", function (data, sender, respond) {
     serpdigger.runner.current.deepScan = data.value;
     respond({ok: true});
 });
+
+_addListener("state:setMaxPages", function (data, sender, respond) {
+    serpdigger.runner.current.maxPagesPerQuery = data.value;
+    respond({ok: true});
+});
