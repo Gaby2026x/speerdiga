@@ -44,6 +44,22 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
+                        <label for="search-engine-select" style="line-height: 32px;">Search Engine</label>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <select class="form-control" id="search-engine-select">
+                            <option value="cse" selected>Google CSE (Custom Search)</option>
+                            <option value="google">Google Web Search</option>
+                            <option value="bing">Bing Search</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="cse-row">
+                <div class="col-sm-4">
+                    <div class="form-group">
                         <label for="cse-address-input" style="line-height: 32px;">Insert Your CSE Main Address</label>
                     </div>
                 </div>
@@ -175,6 +191,12 @@
                                 <label>
                                     <input type="checkbox" checked id="removeDuplicates">
                                     <b>Remove duplicates</b>
+                                </label>
+                            </div>
+                            <div class="checkbox" style="margin-bottom: -5px;">
+                                <label>
+                                    <input type="checkbox" checked id="deepScan">
+                                    <b>Deep Scan pages</b>
                                 </label>
                             </div>
                         </div>

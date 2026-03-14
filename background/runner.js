@@ -11,6 +11,8 @@ serpdigger.runner = {
         allQueries: [],
         emailsFound: [],
         removeDuplicates: true,
+        deepScan: true,
+        fetchedUrls: [],
         delay: 5000
     } 
 };
@@ -36,6 +38,12 @@ function _getRunnerState() {
 chrome.storage.local.get('delay', function (items) {
     if((items.delay !== undefined) && (items.delay !== null)) {
         serpdigger.runner.current.delay = items.delay * 1000;
+    }
+})
+
+chrome.storage.local.get('deepScan', function (items) {
+    if (items.deepScan !== undefined && items.deepScan !== null) {
+        serpdigger.runner.current.deepScan = items.deepScan;
     }
 })
 
@@ -68,6 +76,15 @@ chrome.runtime.onMessage.addListener(
             setTimeout(_nextRunner, delay);
         } else if (request.eventName === 'download') {
             serpdigger.download();
+        } else if (request.eventName === 'runner:deepScan') {
+            var urls = request.eventData.urls || [];
+            var pattern = request.eventData.pattern || null;
+            var removeDupes = request.eventData.removeDuplicates !== false;
+            urls.forEach(function(url) {
+                if (serpdigger.runner.current.fetchedUrls.indexOf(url) !== -1) return;
+                serpdigger.runner.current.fetchedUrls.push(url);
+                _deepFetchPage(url, pattern, removeDupes);
+            });
         }
     }
 )
@@ -91,7 +108,8 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                 queryNumber: current.currentQuery + 1,
                 totalQueries: current.allQueries.length,
                 queryString: current.allQueries[current.currentQuery],
-                queryObject: current.queries[current.currentQuery]
+                queryObject: current.queries[current.currentQuery],
+                deepScan: current.deepScan
             }
         });
 
@@ -104,6 +122,88 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     }
 })
 
+// ── Deep Page Scanning ──────────────────────────────────────────────────────
+
+var _DEEP_EMAIL_REGEXP = /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi;
+
+var _ISP_DOMAINS = {
+    'gmail.com':1, 'yahoo.com':1, 'outlook.com':1, 'hotmail.com':1, 'aol.com':1,
+    'icloud.com':1, 'protonmail.com':1, 'proton.me':1, 'mail.com':1, 'gmx.com':1,
+    'comcast.net':1, 'xfinity.com':1, 'bellsouth.net':1, 'att.net':1, 'sbcglobal.net':1,
+    'verizon.net':1, 'cox.net':1, 'charter.net':1, 'spectrum.net':1, 'centurylink.net':1,
+    'frontier.com':1, 'frontiernet.net':1, 'earthlink.net':1, 'windstream.net':1,
+    'live.com':1, 'msn.com':1, 'ymail.com':1, 'rocketmail.com':1, 'zoho.com':1,
+    'mail.ru':1, 'yandex.com':1, 'tutanota.com':1, 'fastmail.com':1,
+    'googlemail.com':1, 'me.com':1, 'mac.com':1, 'inbox.com':1
+};
+
+function _isJunkEmail(email) {
+    return /^(noreply|no-reply|no_reply|donotreply|mailer-daemon|postmaster|webmaster)@/.test(email)
+        || /\.(png|jpg|jpeg|gif|svg|css|js|woff|ttf|eot)$/i.test(email)
+        || email.indexOf('example.com') !== -1
+        || email.indexOf('sentry.io') !== -1
+        || email.indexOf('wixpress.com') !== -1;
+}
+
+function _deepFetchPage(url, pattern, removeDuplicates) {
+    var controller = new AbortController();
+    var timeout = setTimeout(function() { controller.abort(); }, 15000);
+
+    fetch(url, {
+        signal: controller.signal,
+        redirect: 'follow',
+        headers: { 'Accept': 'text/html,text/plain' }
+    })
+    .then(function(response) {
+        clearTimeout(timeout);
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        var ct = (response.headers.get('content-type') || '').toLowerCase();
+        if (ct.indexOf('text/html') === -1 && ct.indexOf('text/plain') === -1) {
+            throw new Error('Not text content');
+        }
+        return response.text();
+    })
+    .then(function(html) {
+        var text = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ')
+                       .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, ' ')
+                       .replace(/<[^>]+>/g, ' ');
+
+        var rawEmails = text.match(_DEEP_EMAIL_REGEXP) || [];
+        var addedNew = false;
+
+        rawEmails.forEach(function(email) {
+            var clean = email.toLowerCase().trim();
+            if (_isJunkEmail(clean)) return;
+
+            var domain = clean.split('@')[1];
+            if (!domain) return;
+
+            if (pattern) {
+                var patternClean = pattern.replace(/"/g, '').trim();
+                if (patternClean.charAt(0) === '@') patternClean = patternClean.substring(1);
+                if (domain !== patternClean) return;
+            } else {
+                if (_ISP_DOMAINS.hasOwnProperty(domain)) return;
+            }
+
+            if (!removeDuplicates || serpdigger.runner.current.emailsFound.indexOf(clean) === -1) {
+                serpdigger.runner.current.emailsFound.push(clean);
+                addedNew = true;
+            }
+        });
+
+        if (addedNew) {
+            _notifyPopup('popup:emailCount', {count: serpdigger.runner.current.emailsFound.length});
+        }
+    })
+    .catch(function(err) {
+        clearTimeout(timeout);
+        log.w('_deepFetchPage failed for', url, err.message || err);
+    });
+}
+
+// ── Search Engine Routing ───────────────────────────────────────────────────
+
 function _nextRunner() {
     var currentQuery = serpdigger.runner.current.currentQuery;
     var allQueries = serpdigger.runner.current.allQueries;
@@ -113,12 +213,25 @@ function _nextRunner() {
         return;
     }
 
-    chrome.storage.local.get('cse', function (items) {
+    chrome.storage.local.get(['cse', 'searchEngine'], function (items) {
 
-        var url = items.cse;
-        if (!url) { return }
+        var engine = items.searchEngine || 'cse';
+        var query = encodeURIComponent(allQueries[currentQuery]);
+        var url;
 
-        url += '&q=' + encodeURIComponent(allQueries[currentQuery]) + '&ia=web';
+        switch (engine) {
+            case 'google':
+                url = 'https://www.google.com/search?q=' + query + '&num=100';
+                break;
+            case 'bing':
+                url = 'https://www.bing.com/search?q=' + query + '&count=50';
+                break;
+            default: // 'cse'
+                url = items.cse;
+                if (!url) { return }
+                url += '&q=' + query + '&ia=web';
+                break;
+        }
 
         log.i('_nextRunner()', url);
 
@@ -160,6 +273,7 @@ serpdigger.run = function (queries) {
     serpdigger.runner.current.allQueries = queries.str;
     serpdigger.runner.current.queries = queries.obj;
     serpdigger.runner.current.emailsFound = [];
+    serpdigger.runner.current.fetchedUrls = [];
 
     _notifyPopup('popup:emailCount', {count: 0});
     _notifyPopup('popup:progress', {

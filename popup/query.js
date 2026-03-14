@@ -43,6 +43,18 @@ function storeRemoveDuplicates(removeDuplicates) {
     });
 }
 
+function storeDeepScan(val) {
+    chrome.storage.local.set({
+        deepScan: val
+    });
+}
+
+function storeSearchEngine(val) {
+    chrome.storage.local.set({
+        searchEngine: val
+    });
+}
+
 function storeLocationExactMatch(exactMatch) {
     chrome.storage.local.set({
         locationExactMatch: exactMatch
@@ -100,6 +112,29 @@ function restoreTerm2ExactMatch() {
             $('#term2-exact-match-checkbox').get(0).checked = true;
         } else {
             $('#term2-exact-match-checkbox').get(0).checked = items.term2ExactMatch;   
+        }
+    });
+}
+
+function restoreDeepScan() {
+    chrome.storage.local.get('deepScan', function (items) {
+        if (items.deepScan === null || items.deepScan === undefined) {
+            storeDeepScan(true);
+            $('#deepScan').get(0).checked = true;
+        } else {
+            $('#deepScan').get(0).checked = items.deepScan;
+        }
+    });
+}
+
+function restoreSearchEngine() {
+    chrome.storage.local.get('searchEngine', function (items) {
+        var val = items.searchEngine || 'cse';
+        $('#search-engine-select').val(val);
+        if (val === 'cse') {
+            $('#cse-row').show();
+        } else {
+            $('#cse-row').hide();
         }
     });
 }
@@ -241,6 +276,20 @@ _onInit(function () {
     $('#removeDuplicates').on('click', function () {
         storeRemoveDuplicates(this.checked);
     });
+
+    $('#deepScan').on('click', function () {
+        storeDeepScan(this.checked);
+    });
+
+    $('#search-engine-select').on('change', function () {
+        var val = $(this).val();
+        storeSearchEngine(val);
+        if (val === 'cse') {
+            $('#cse-row').show();
+        } else {
+            $('#cse-row').hide();
+        }
+    });
     
     $('#location-exact-match-checkbox').on('click', function () {
         storeLocationExactMatch(this.checked);
@@ -259,6 +308,8 @@ _onInit(function () {
     restoreRemoveDuplicates();
     restoreLocationExactMatch();
     restoreTerm2ExactMatch();
+    restoreDeepScan();
+    restoreSearchEngine();
     
     log.i('after query : ', $('#delayInput').val());
     

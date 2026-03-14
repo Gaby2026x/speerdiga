@@ -68,3 +68,8 @@ _addListener("state:setPaid", function (data, sender, respond) {
     serpdigger.paid = data.paid;
     respond({ok: true});
 });
+
+_addListener("state:setDeepScan", function (data, sender, respond) {
+    serpdigger.runner.current.deepScan = data.value;
+    respond({ok: true});
+});

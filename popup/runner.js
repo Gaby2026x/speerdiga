@@ -95,6 +95,10 @@ _onInit(function () {
         _sendEvent('state:setRemoveDuplicates', {value: this.checked});
     });
     
+    $('#deepScan').change(function () {
+        _sendEvent('state:setDeepScan', {value: this.checked});
+    });
+    
     $('#toggle').click(function () {
         log.i('start:', $(this).data('status'));
         if($(this).data('status') === 'stop') {
